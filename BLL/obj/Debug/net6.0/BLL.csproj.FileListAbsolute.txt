@@ -1,0 +1,17 @@
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.csproj.AssemblyReference.cache
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.AssemblyInfoInputs.cache
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.AssemblyInfo.cs
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.csproj.CoreCompileInputs.cache
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\BLL.deps.json
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\BLL.dll
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\BLL.pdb
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\DAL.dll
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\DTO.dll
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\DAL.pdb
+D:\New folder\BTL_API\BLL\bin\Debug\net6.0\DTO.pdb
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.csproj.CopyComplete
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.dll
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\refint\BLL.dll
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\BLL.pdb
+D:\New folder\BTL_API\BLL\obj\Debug\net6.0\ref\BLL.dll

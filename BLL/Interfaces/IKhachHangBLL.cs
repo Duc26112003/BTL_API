@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
+
     public partial interface IKhachHangBLL
     {
         KhachHangDTO GetDatabyID(string id);
