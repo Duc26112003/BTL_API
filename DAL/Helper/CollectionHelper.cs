@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Reflection;
 
-namespace DataAccessLayer
+namespace DAL
 {
     public static class MessageConvert
     {

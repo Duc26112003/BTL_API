@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer;
 using DTO;
 
 namespace DAL
@@ -23,8 +22,8 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_khach_get_by_id",
-                         "@id", id);
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_getkh",
+                         "@MaKhachHang", id);
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
                     return dt.ConvertTo<KhachHangDTO>().FirstOrDefault();
@@ -34,12 +33,13 @@ namespace DAL
                     throw ex;
                 }
             }
+
             public bool Create(KhachHangDTO model)
             {
                 string msgError = "";
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_khach_create",
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_themkh",
                     "@MaKhachHang", model.MaKhachHang,
                     "@TenKhachHang", model.TenKhachHang,
                     "@GioiTinh", model.GioiTinh,
@@ -61,7 +61,7 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_khach_update",
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_suakh",
                     "@MaKhachHang", model.MaKhachHang,
                     "@TenKhachHang", model.MaKhachHang,
                     "@GioiTinh", model.GioiTinh,
@@ -85,7 +85,7 @@ namespace DAL
                 total = 0;
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_khach_search",
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_tkkh",
                         "@page_index", pageIndex,
                         "@page_size", pageSize,
                         "@ten_khach", ten_khach,

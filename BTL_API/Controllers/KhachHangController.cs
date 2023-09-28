@@ -70,6 +70,23 @@ namespace BTL_API.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+        //[Route("delete-khachhang1/{id}")]
+        //[HttpGet]
+        //public IActionResult DeleteKhachHang1(string id)
+        //{
+        //    var obj = KhachHangBLL.SingleOrDefault(x => x.Id == id);
+        //    if (obj != null)
+        //    {
+        //        KhachHangBLL.Remove(obj);
+        //        KhachHangBLL.SaveChanges();
+        //        return Ok(new { message = "Đã xóa khách hàng thành công!" });
+        //    }
+        //    else
+        //    {
+        //        return Ok(new { message = "Mã khách không tồn tại!" });
+        //    }
+        //}
     }
 }
 

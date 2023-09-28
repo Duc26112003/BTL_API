@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace DataAccessLayer
+namespace DAL
 {
     public class StoreParameterInfo
     {
