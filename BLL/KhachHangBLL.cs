@@ -27,5 +27,15 @@ namespace BLL
         {
             return _res.Search(pageIndex, pageSize, out total, ten_khach, dia_chi);
         }
+        public void SaveChanges()
+        {
+            
+        }
+
+        public void Remove(KhachHangDTO model)
+        { 
+
+        }
+
     }
 }

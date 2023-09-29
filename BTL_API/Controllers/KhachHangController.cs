@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using BLL;
 using DTO;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace BTL_API.Controllers
 {
@@ -43,6 +45,7 @@ namespace BTL_API.Controllers
         }
         [Route("search")]
         [HttpPost]
+
         public IActionResult Search([FromBody] Dictionary<string, object> formData)
         {
             try
@@ -75,7 +78,7 @@ namespace BTL_API.Controllers
         //[HttpGet]
         //public IActionResult DeleteKhachHang1(string id)
         //{
-        //    var obj = KhachHangBLL.SingleOrDefault(x => x.Id == id);
+        //    var obj = Khach.SingleOrDefault(x => x.Id == id);
         //    if (obj != null)
         //    {
         //        KhachHangBLL.Remove(obj);
@@ -87,6 +90,32 @@ namespace BTL_API.Controllers
         //        return Ok(new { message = "Mã khách không tồn tại!" });
         //    }
         //}
+
+        [Route("delete-khachhang1/{id}")]
+        [HttpDelete]
+        public IActionResult DeleteKhachHang1(string id)
+        {
+            try
+            {
+                var obj = _khachHangBLL.GetDatabyID(id);
+
+                if (obj != null)
+                {
+                    _khachHangBLL.Remove(obj);
+                    _khachHangBLL.SaveChanges();
+
+                    return Ok(new { message = "Đã xóa khách hàng thành công!" });
+                }
+                else
+                {
+                    return NotFound(new { message = "Khách hàng không tồn tại!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Lỗi xóa khách hàng: " + ex.Message });
+            }
+        }
     }
 }
 
