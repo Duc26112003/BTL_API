@@ -73,49 +73,15 @@ namespace BTL_API.Controllers
                 throw new Exception(ex.Message);
             }
         }
-
-        //[Route("delete-khachhang1/{id}")]
-        //[HttpGet]
-        //public IActionResult DeleteKhachHang1(string id)
-        //{
-        //    var obj = Khach.SingleOrDefault(x => x.Id == id);
-        //    if (obj != null)
-        //    {
-        //        KhachHangBLL.Remove(obj);
-        //        KhachHangBLL.SaveChanges();
-        //        return Ok(new { message = "Đã xóa khách hàng thành công!" });
-        //    }
-        //    else
-        //    {
-        //        return Ok(new { message = "Mã khách không tồn tại!" });
-        //    }
-        //}
-
-        [Route("delete-khachhang1/{id}")]
+        [Route("delete-khach")]
         [HttpDelete]
-        public IActionResult DeleteKhachHang1(string id)
+        public IActionResult DeleteItem(string TenKhachHang)
         {
-            try
-            {
-                var obj = _khachHangBLL.GetDatabyID(id);
-
-                if (obj != null)
-                {
-                    _khachHangBLL.Remove(obj);
-                    _khachHangBLL.SaveChanges();
-
-                    return Ok(new { message = "Đã xóa khách hàng thành công!" });
-                }
-                else
-                {
-                    return NotFound(new { message = "Khách hàng không tồn tại!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = "Lỗi xóa khách hàng: " + ex.Message });
-            }
+            _khachHangBLL.Delete(TenKhachHang);
+            return Ok(TenKhachHang);
         }
+
+
     }
 }
 

@@ -19,6 +19,10 @@ namespace BLL
         {
             return _res.Create(model);
         }
+        public bool Delete(string TenKhachHang)
+        {
+            return _res.Delete(TenKhachHang);
+        }
         public bool Update(KhachHangDTO model)
         {
             return _res.Update(model);
@@ -27,15 +31,7 @@ namespace BLL
         {
             return _res.Search(pageIndex, pageSize, out total, ten_khach, dia_chi);
         }
-        public void SaveChanges()
-        {
-            
-        }
-
-        public void Remove(KhachHangDTO model)
-        { 
-
-        }
+        
 
     }
 }

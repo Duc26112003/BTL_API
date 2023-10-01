@@ -7,7 +7,7 @@ using DTO;
 
 namespace DAL
 {
-    public  class KhachRespository
+    public class KhachRespository
     {
         public class KhachRepository : IKhachRepository
         {
@@ -63,7 +63,7 @@ namespace DAL
                 {
                     var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_suakh",
                     "@MaKhachHang", model.MaKhachHang,
-                    "@TenKhachHang", model.MaKhachHang,
+                    "@TenKhachHang", model.TenKhachHang,
                     "@GioiTinh", model.GioiTinh,
                     "@DiaChi", model.DiaChi,
                     "@SoDienThoai", model.SoDienThoai);
@@ -100,6 +100,32 @@ namespace DAL
                     throw ex;
                 }
             }
+            public bool Delete(string TenKhachHang)
+            {
+                string msgError = "";
+                bool kq; // Khởi tạo mặc định là false
+                try
+                {
+                    var result = _dbHelper.ExecuteScalarSProcedure(out msgError, "Proc_delete_taikhoan",
+                         "@TenKhachHang", TenKhachHang);
+                    // Kiểm tra kết quả trả về từ hàm ExecuteScalarSProcedureWithTransaction
+                    if (Convert.ToInt32(result) > 0)
+                    {
+                        kq = true; // Xóa thành công, đặt kq thành true
+                    }
+                    else
+                    {
+                        kq = false;
+                    }
+                    return kq;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+
         }
     }
 }
