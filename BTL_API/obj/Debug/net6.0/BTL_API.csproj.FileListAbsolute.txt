@@ -80,3 +80,4 @@ D:\New folder\BTL_API\BTL_API\obj\Debug\net6.0\refint\BTL_API.dll
 D:\New folder\BTL_API\BTL_API\obj\Debug\net6.0\BTL_API.pdb
 D:\New folder\BTL_API\BTL_API\obj\Debug\net6.0\BTL_API.genruntimeconfig.cache
 D:\New folder\BTL_API\BTL_API\obj\Debug\net6.0\ref\BTL_API.dll
+D:\New folder\BTL_API\BTL_API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

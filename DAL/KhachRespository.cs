@@ -100,14 +100,14 @@ namespace DAL
                     throw ex;
                 }
             }
-            public bool Delete(string TenKhachHang)
+            public bool Delete(string MaKhachHang)
             {
                 string msgError = "";
                 bool kq; // Khởi tạo mặc định là false
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedure(out msgError, "Proc_delete_taikhoan",
-                         "@TenKhachHang", TenKhachHang);
+                    var result = _dbHelper.ExecuteScalarSProcedure(out msgError, "Proc_xoakh",
+                         "@MaKhachHang", MaKhachHang);
                     // Kiểm tra kết quả trả về từ hàm ExecuteScalarSProcedureWithTransaction
                     if (Convert.ToInt32(result) > 0)
                     {

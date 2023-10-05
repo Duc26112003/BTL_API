@@ -7,7 +7,7 @@ using DTO;
 
 namespace BLL.Interfaces
 {
-    public class IUserBLL
+    public partial interface IUserBLL
     {
         UserDTO Login(string taikhoan, string matkhau);
     }

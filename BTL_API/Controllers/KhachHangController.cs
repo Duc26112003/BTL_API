@@ -75,10 +75,10 @@ namespace BTL_API.Controllers
         }
         [Route("delete-khach")]
         [HttpDelete]
-        public IActionResult DeleteItem(string TenKhachHang)
+        public IActionResult DeleteItem(string MaKhachHang)
         {
-            _khachHangBLL.Delete(TenKhachHang);
-            return Ok(TenKhachHang);
+            _khachHangBLL.Delete(MaKhachHang);
+            return Ok(MaKhachHang);
         }
 
 

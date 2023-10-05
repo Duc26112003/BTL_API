@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.Interfaces;
 using DAL;
 using DAL.Interfaces;
 using DTO;
@@ -13,10 +14,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
-    public class UserBLL
+    public class UserBLL:IUserBLL
     {
-        private IUserRepository _res;
-        private string secret;
+        public  IUserRepository _res;
+        public string secret;
         public UserBLL(IUserRepository res, IConfiguration configuration)
         {
             _res = res;

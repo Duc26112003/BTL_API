@@ -19,9 +19,9 @@ namespace BLL
         {
             return _res.Create(model);
         }
-        public bool Delete(string TenKhachHang)
+        public bool Delete(string MaKhachHang)
         {
-            return _res.Delete(TenKhachHang);
+            return _res.Delete(MaKhachHang);
         }
         public bool Update(KhachHangDTO model)
         {

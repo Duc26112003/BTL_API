@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class UserRepository
-    {
         public class UserRepository : IUserRepository
         {
             private IDatabaseHelper _dbHelper;
@@ -36,5 +34,5 @@ namespace DAL
                 }
             }
         }
-    }
+    
 }

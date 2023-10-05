@@ -14,7 +14,7 @@ namespace BLL
         bool Create(KhachHangDTO model);
         bool Update(KhachHangDTO model);
 
-        bool Delete(string TenKhachHang);
+        bool Delete(string MaKhachHang);
         public List<KhachHangDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, string dia_chi);
         
     }
