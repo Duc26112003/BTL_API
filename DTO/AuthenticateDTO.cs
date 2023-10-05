@@ -19,7 +19,6 @@ namespace DTO
         public class AppSettings
         {
             public string Secret { get; set; }
-
         }
     }
 }
