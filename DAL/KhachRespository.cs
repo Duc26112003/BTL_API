@@ -85,9 +85,9 @@ namespace DAL
                 total = 0;
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_tkkh",
-                        "@page_index", pageIndex,
-                        "@page_size", pageSize,
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_KhachHang",
+                        "@page_index ", pageIndex,
+                        "@page_size ", pageSize,
                         "@ten_khach", ten_khach,
                         "@dia_chi", dia_chi);
                     if (!string.IsNullOrEmpty(msgError))
