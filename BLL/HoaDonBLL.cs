@@ -13,7 +13,7 @@ namespace BLL
             _res = res;
         }
          
-        public HoaDonDTO GetDatabyID(string id)
+        public HoaDonDTO GetDatabyID(int id)
         {
             return _res.GetDatabyID(id);
         }

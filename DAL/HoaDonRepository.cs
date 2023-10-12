@@ -10,12 +10,12 @@ namespace DAL
             _dbHelper = dbHelper;
         }
 
-        public HoaDonDTO GetDatabyID(string id)
+        public HoaDonDTO GetDatabyID(int id)
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_hoadon_get_by_id",
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_sp_hoadon_get_by_id",
                      "@MaHoaDon", id);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);

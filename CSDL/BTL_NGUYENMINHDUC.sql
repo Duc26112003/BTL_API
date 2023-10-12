@@ -2,6 +2,41 @@
 GO 
 USE BTL_NGUYENMINHDUC
 GO
+-- Bảng Chi Tiết Hóa Đơn
+CREATE TABLE tbl_ChiTietHoaDon (
+    MaChiTietHoaDon int not null,
+    MaHoaDon int,
+    MaSanPham char(10), 
+    SoLuong int,
+    TongGia decimal(18, 0),
+    CONSTRAINT PK_MaChiTietHoaDon PRIMARY KEY (MaChiTietHoaDon),
+    CONSTRAINT FK_MaHoaDon_ChiTietHoaDon FOREIGN KEY (MaHoaDon) REFERENCES tbl_HoaDon(MaHoaDon),
+    CONSTRAINT FK_MaSanPham_ChiTietHoaDon FOREIGN KEY (MaSanPham) REFERENCES tbl_SanPham(MaSanPham)
+);
+
+-- Bảng Hóa Đơn
+CREATE TABLE tbl_HoaDon (
+    MaHoaDon int not null,
+    TongGia decimal(18, 0) not null,
+    NgayTao datetime null,
+    NgayDuyet datetime null,
+    TenKhachHang NVARCHAR(50) not null,
+    GioiTinh nvarchar(10),
+    DiaChi nvarchar(250),
+    SoDienThoai nvarchar(10),
+    CONSTRAINT PK_MaHoaDon PRIMARY KEY (MaHoaDon)
+);
+GO
+
+-- Bảng Sản Phẩm
+CREATE TABLE tbl_SanPham (
+    MaSanPham char(10) CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
+    TenHang NVARCHAR(50) null,
+    MaLoaiHang char(10) not null,
+    SoLuong INT not null,
+    MoTa VARCHAR(100) not null
+);
+GO
 
 -- tạo bảng loại hàng 
 CREATE TABLE tbl_LoaiHang (
@@ -9,29 +44,48 @@ CREATE TABLE tbl_LoaiHang (
     TenLoaiHang VARCHAR(50) not null, 
 );
 GO
--- tạo bảng hàng hóa 
-CREATE TABLE tbl_HangHoa (
-    MaHang char(10) CONSTRAINT PK_MH PRIMARY KEY (MaHang) not null,
-    TenHang NVARCHAR(50) null,
-    MaLoaiHang char(10) not null,
-    SoLuong INT not null,
-    DonGiaNhap FLOAT not null,
-	DonGiaBan float not null,
-	MoTa VARCHAR(100)not null
-    FOREIGN KEY (MaLoaiHang) REFERENCES tbl_LoaiHang(MaLoaiHang) on delete cascade on update cascade,
+-- Tạo bảng LoaiTaiKhoan để lưu danh sách loại tài khoản
+CREATE TABLE LoaiTaiKhoan (
+    LoaiTaiKhoanID int PRIMARY KEY,
+    TenLoaiTaiKhoan nvarchar(50)
 );
-GO
+
+-- Tạo bảng tbl_TaiKhoan với khóa ngoại trỏ đến LoaiTaiKhoan
+CREATE TABLE tbl_TaiKhoan (
+    MaTaiKhoan int PRIMARY KEY,
+    LoaiTaiKhoanID int, -- Khóa ngoại trỏ đến LoaiTaiKhoan
+    TenTaiKhoan nvarchar(50),
+    Matkhau nvarchar(50),
+    Email nvarchar(50),  
+    FOREIGN KEY (LoaiTaiKhoanID) REFERENCES LoaiTaiKhoan (LoaiTaiKhoanID)
+);
+
+-- Tạo bảng ChiTietTaiKhoan để lưu thông tin chi tiết về tài khoản
+CREATE TABLE ChiTietTaiKhoan (
+    MaChiTietTaiKhoan int PRIMARY KEY,
+    MaTaiKhoan int, -- Khóa ngoại trỏ đến MaTaiKhoan trong tbl_TaiKhoan
+    HoTen nvarchar(100),
+    DiaChi nvarchar(200),
+    SoDienThoai nvarchar(20),
+    
+    FOREIGN KEY (MaTaiKhoan) REFERENCES tbl_TaiKhoan (MaTaiKhoan)
+);
+INSERT INTO tbl_TaiKhoan VALUES
+('1','1','admin','admin','duc56977@gmail.com'),
+('2','1','user','user','duc26112@gmail.com')
+
+
 -- tạo bảng nhân viên 
 CREATE TABLE tbl_NhanVien (
     MaNhanVien char(10) not null CONSTRAINT PK_MNV PRIMARY KEY (MaNhanVien),
     TenNhanVien NVARCHAR(50) not null,
 	GioiTinh NVARCHAR(10),
-    DiaChi VARCHAR(100) not null,
-    SoDienThoai VARCHAR(15) not null ,
+    DiaChi VARCHAR(100) not null ,
+    SoDienThoai VARCHAR(15) not null,
 	Email char(30) not null,
-    NgaySinh DATE not null,
 );
 GO
+
 -- tạo bảng khách hàng 
 CREATE TABLE tbl_KhachHang (
     MaKhachHang char(10) CONSTRAINT PK_MKH PRIMARY KEY (MaKhachHang) not null,
@@ -41,43 +95,39 @@ CREATE TABLE tbl_KhachHang (
     SoDienThoai VARCHAR(10) not null CONSTRAINT chk_SoDienThoai CHECK(SoDienThoai LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 );
 GO
--- tạo bảng hóa đơn bán 
-CREATE TABLE tbl_HoaDonBan (
-    MaHoaDonBan INT PRIMARY KEY not null,
-    MaNhanVien char(10) not null,
-    NgayBan DATE not null,
-    MaKhachHang char(10) not null,
-	TongTien FLOAT not null,
-    FOREIGN KEY (MaNhanVien) REFERENCES tbl_NhanVien(MaNhanVien) on delete cascade on update cascade,
-    FOREIGN KEY (MaKhachHang) REFERENCES tbl_KhachHang(MaKhachHang)on delete cascade on update cascade,
-);
-GO
--- chi tiết hóa đơn bán 
-CREATE TABLE tbl_ChiTietHoaDonBan (
-    MaHoaDonBan INT not null,
-    MaHang char(10)not null,
-    SoLuong INT not null,
-    DonGia FLOAT not null,
-	GiamGia FLOAT not null,
-    ThanhTien FLOAT not null,
-    PRIMARY KEY (MaHoaDonBan, MaHang) ,
-    FOREIGN KEY (MaHoaDonBan) REFERENCES tbl_HoaDonBan(MaHoaDonBan) on delete cascade on update cascade,
-    FOREIGN KEY (MaHang) REFERENCES tbl_HangHoa(MaHang) on delete cascade on update cascade,
-);
-GO
+
+-- Thêm dữ liệu các loại tài khoản 
+INSERT INTO LoaiTaiKhoan (LoaiTaiKhoanID, TenLoaiTaiKhoan)
+VALUES (1, N'Admin'),
+       (2, N'Người dùng');
+-- Thêm dữ liệu vào bảng sản phẩm 
+INSERT INTO tbl_SanPham (MaSanPham, TenHang, MaLoaiHang, SoLuong, MoTa)
+VALUES
+    ('SP001', N'Máy tính ', 'LH001', 100, 'Máy tính dành cho dân văn phòng '),
+    ('SP002', N'Máy tính ', 'LH002', 50, 'Máy tính dành cho game thủ '),
+    ('SP003', N'Điện Thoại ', 'LH001', 75, 'Điện thoại Iphone 15'),
+    ('SP004', N'Laptop', 'LH003', 120, 'Laptop dành cho đồ họa');
+
+-- Thêm một bản ghi vào bảng tbl_HoaDon
+INSERT INTO tbl_HoaDon (MaHoaDon, TongGia, NgayTao, NgayDuyet, TenKhachHang, GioiTinh, DiaChi, SoDienThoai)VALUES
+(1, 1000, '2023-10-10', '2023-10-15', 'Nguyen Thi An  ', N'Nữ', 'Ha Noi', '0123456789'),
+ (2, 1000, '2023-10-11', '2023-10-15', 'Nguyen Minh Duc', 'Nam', 'Hung Yen', '1234567890'),
+ (3, 1000, '2023-10-12', '2023-10-15', 'Nguyen Thuy Duong', N'Nữ', 'Ha Noi', '1234567890'),
+ (4, 1000, '2023-10-12', '2023-10-15', 'Thuy Dung', 'Nam', 'Da Nang', '0987654321'),
+ (5, 1000, '2023-10-12', '2023-10-15', 'Manh Cuong','Nam' , 'Sai Gon', '1234567890');
 
 -- Thêm nhân viên 
-INSERT INTO tbl_NhanVien (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai, Email, NgaySinh)VALUES 
-('NV001', 'Nguyen Van A', 'Nam', '123 Nguyen Du, Hanoi', '0123456789', 'nv.a@example.com', '2000-01-01'),
-('NV002', 'Tran Thi B', N'Nữ', '456 Le Loi, Ho Chi Minh City', '0987654321', 'nv.b@example.com', '1995-05-10'),
-('NV003', 'Pham Van C', 'Nam', '789 Nguyen Trai, Da Nang', '0369876543', 'nv.c@example.com', '1998-12-25'),
-('NV004', 'Hoang Thi D', N'Nữ', '321 Tran Hung Dao, Hai Phong', '0543216789', 'nv.d@example.com', '1992-07-15'),
-('NV005', 'Le Van E', 'Nam', '654 Nguyen Thi Minh Khai, Can Tho', '0765432109', 'nv.e@example.com', '1994-03-05'),
-('NV006', 'Nguyen Thi F', N'Nữ', '987 Hoang Van Thu, Hue', '0912345678', 'nv.f@example.com', '1997-09-20'),
-('NV007', 'Tran Van G', 'Nam', '258 Vo Thi Sau, Nha Trang', '0887654321', 'nv.g@example.com', '1990-11-30'),
-('NV008', 'Pham Thi H', N'Nữ', '753 Le Lai, Da Lat', '0332145678', 'nv.h@example.com', '1993-08-18'),
-('NV009', 'Hoang Van I', 'Nam', '159 Tran Phu, Quy Nhon', '0598765432', 'nv.i@example.com', '1999-02-28'),
-('NV010', 'Le Thi J', N'Nữ', '852 Hoang Dieu, Vung Tau', '0945678901', 'nv.j@example.com', '1996-06-08');
+INSERT INTO tbl_NhanVien (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai, Email)VALUES 
+('NV001', 'Nguyen Van A', 'Nam', '123 Nguyen Du, Hanoi', '0123456789', 'nv.a@example.com'),
+('NV002', 'Tran Thi B', N'Nữ', '456 Le Loi, Ho Chi Minh City', '0987654321', 'nv.b@example.com'),
+('NV003', 'Pham Van C', 'Nam', '789 Nguyen Trai, Da Nang', '0369876543', 'nv.c@example.com'),
+('NV004', 'Hoang Thi D', N'Nữ', '321 Tran Hung Dao, Hai Phong', '0543216789', 'nv.d@example.com'),
+('NV005', 'Le Van E', 'Nam', '654 Nguyen Thi Minh Khai, Can Tho', '0765432109', 'nv.e@example.com'),
+('NV006', 'Nguyen Thi F', N'Nữ', '987 Hoang Van Thu, Hue', '0912345678', 'nv.f@example.com'),
+('NV007', 'Tran Van G', 'Nam', '258 Vo Thi Sau, Nha Trang', '0887654321', 'nv.g@example.com'),
+('NV008', 'Pham Thi H', N'Nữ', '753 Le Lai, Da Lat', '0332145678', 'nv.h@example.com'),
+('NV009', 'Hoang Van I', 'Nam', '159 Tran Phu, Quy Nhon', '0598765432', 'nv.i@example.com'),
+('NV010', 'Le Thi J', N'Nữ', '852 Hoang Dieu, Vung Tau', '0945678901', 'nv.j@example.com');
 GO
 -- Thêm khách hàng 
 INSERT INTO tbl_KhachHang (MaKhachHang, TenKhachHang, GioiTinh, DiaChi, SoDienThoai)
@@ -93,58 +143,7 @@ VALUES
     ('KH009', 'Hoang Van I', 'Nam', '159 Tran Phu, Quy Nhon', '0598765432'),
     ('KH010', 'Le Thi J', N'Nữ', '852 Hoang Dieu, Vung Tau', '0945678901');
 GO
-INSERT INTO tbl_LoaiHang (MaLoaiHang, TenLoaiHang)
-VALUES 
-    ('LH001', 'Laptop'),
-    ('LH002', N'Desktop'),
-    ('LH003', N'Phu kien'),
-    ('LH004', N'Linh kien'),
-	('LH005', N'May in'),
-    ('LH006', N'May scan'),
-    ('LH007', N'May chieu'),
-    ('LH008', N'Thiet be lưu tru'),
-    ('LH009', N'Phan mem'),
-    ('LH010', N'Gaming');
-GO
-INSERT INTO tbl_HangHoa (MaHang, TenHang, MaLoaiHang, SoLuong, DonGiaNhap,DonGiaBan,MoTa)
-VALUES 
-('HH001', 'Laptop Dell', 'LH001', 10, 20000000, 25000000,'Laptop'),
-('HH002', 'Laptop Asus', 'LH002', 20, 15000000,250000000,'Laptop'),
-('HH003', 'Laptop Acer', 'LH003', 20, 15000000,20000000,'Laptop'),
-('HH004', 'Laptop Hp', 'LH004', 20, 15000000,20000000,'Laptop'),
-('HH005', 'Laptop Dell', 'LH005', 20, 15000000,20000000,'Laptop'),
-('HH006', 'Laptop Macbook', 'LH006', 20, 15000000,20000000,'Laptop'),
-('HH007', 'Laptop Acer', 'LH007', 20, 15000000,20000000,'Laptop'),
-('HH008', 'Laptop Macbook', 'LH008', 20, 15000000,20000000,'Laptop'),
-('HH009', 'Laptop Samsung', 'LH009', 20, 15000000,20000000,'Laptop'),
-('HH010', 'Laptop Macbook', 'LH010', 20, 15000000,20000000,'Laptop');
 
-GO
-INSERT INTO tbl_HoaDonBan (MaHoaDonBan, MaNhanVien, NgayBan, MaKhachHang,TongTien) VALUES
-(1, 'NV001', '2023-05-23', 'KH001', 5000000),
-(2,'NV002', '2023-05-20', 'KH002', 10000000),
-(3, 'NV003', '2023-05-21', 'KH003', 5000000),
-(4, 'NV004', '2023-05-22', 'KH004', 4000000),
-(5, 'NV005', '2023-05-19', 'KH005', 4000000),
-(6, 'NV006', '2023-05-17', 'KH006', 40000000),
-(7, 'NV007', '2023-05-15', 'KH007', 60000000),
-(8, 'NV008', '2023-05-12', 'KH008', 20000000),
-(9, 'NV009', '2023-05-12', 'KH009', 30000000),
-(10, 'NV010', '2023-05-12', 'KH010', 8000000);
-GO
-INSERT INTO tbl_ChiTietHoaDonBan (MaHoaDonBan, MaHang, SoLuong, DonGia,GiamGia,ThanhTien)
-VALUES
-(1, 'HH001', 10, 27000000,0, 10*27000000),
-(2, 'HH002', 20, 12000000,0, 20*12000000),
-(3, 'HH003', 30, 13000000,0, 30*13000000),
-(4, 'HH004', 100, 12000000,0, 100*12000000),
-(5, 'HH005', 15, 12000000,0, 15*12000000),
-(6, 'HH006', 10, 18000000,0, 10*18000000),
-(7, 'HH007', 20, 12000000,0, 20*12000000),
-(8, 'HH008', 30, 12000000,0, 30*12000000),
-(9, 'HH009', 100, 12000000,0, 100*12000000),
-(10, 'HH010', 15, 10000000,0, 15*10000000);
-GO
 
 /*Thủ tục thêm khách hàng */
 CREATE PROC Proc_themkh
@@ -190,15 +189,258 @@ END
 GO
 ----gọi thủ tục xoá mã khách “KH012”
 exec Proc_xoakh 'KH012'
-SELECT * FROM tbl_KhachHang
 
-/*Tim kiem khach hang*/
-CREATE PROC Proc_tkkh
-@TUKHOA NVARCHAR(50)
+select * from tbl_KhachHang
+exec SearchKhachHang 2,2,'',''
+
+ALTER PROCEDURE SearchKhachHang
+    @PageIndex INT,
+    @PageSize INT,
+    @TenKhachHang NVARCHAR(50),
+    @DiaChi NVARCHAR(100)
 AS
 BEGIN
-    SELECT * FROM tbl_KhachHang WHERE tbl_KhachHang.TenKhachHang = @TUKHOA OR TenKhachHang LIKE @TUKHOA OR SoDienThoai LIKE @TUKHOA OR TenKhachHang LIKE '%'+@TUKHOA+'%'
+    -- Tạo bộ phận trang
+    DECLARE @StartRow INT, @EndRow INT
+    SET @StartRow = (@PageIndex - 1) * @PageSize + 1
+    SET @EndRow = @StartRow + @PageSize - 1
+
+    -- Tạo bảng tạm để lưu trữ kết quả
+    CREATE TABLE #TempResult (
+        MaKhachHang char(10),
+        TenKhachHang NVARCHAR(50),
+        GioiTinh NVARCHAR(10),
+        DiaChi NVARCHAR(100),
+        SoDienThoai NVARCHAR(10)
+    )
+    -- Tìm kiếm khách hàng theo tiêu chí
+    INSERT INTO #TempResult (MaKhachHang, TenKhachHang, GioiTinh, DiaChi, SoDienThoai)
+    SELECT MaKhachHang, TenKhachHang, GioiTinh, DiaChi, SoDienThoai
+    FROM tbl_KhachHang
+    WHERE (TenKhachHang LIKE '%' + @TenKhachHang + '%' OR @TenKhachHang IS NULL)
+        AND (DiaChi LIKE '%' + @DiaChi + '%' OR @DiaChi IS NULL)
+
+    -- Lấy tổng số bản ghi
+    DECLARE @Total INT
+    SET @Total = (SELECT COUNT(*) FROM #TempResult)
+
+    -- Trả về kết quả phân trang
+    SELECT *
+    FROM (
+        SELECT ROW_NUMBER() OVER (ORDER BY MaKhachHang) AS RowNumber, *
+        FROM #TempResult
+    ) AS PagedResult
+    WHERE RowNumber BETWEEN @StartRow AND @EndRow
+
+    -- Xóa bảng tạm
+    DROP TABLE #TempResult
+END
+EXEC SearchKhachHang 1,3,'Nguyen Van A','Hanoi'
+
+create proc Proc_getkh 
+@MaKhachHang nvarchar(10)
+as
+BEGIN
+    select* FROM tbl_KhachHang WHERE MaKhachHang =@MaKhachHang
 END
 GO
-----gọi thủ tục tìm kiếm có họ “Nguyen”
-exec Proc_tkkh 'Nguyen'
+
+ALTER PROCEDURE Proc_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
+AS
+    BEGIN
+      SELECT  *
+      FROM tbl_TaiKhoan
+      where TenTaiKhoan= @taikhoan and MatKhau = @matkhau;
+    END;
+
+	exec Proc_login 'admin','admin';
+	exec Proc_login 'user','user'
+
+
+
+ALTER PROCEDURE Proc_KhachHang (
+	@page_index  INT, 
+	@page_size   INT,
+	@ten_khach Nvarchar(50),
+	@dia_chi varchar(100)
+)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenKhachHang ASC)) AS RowNumber, 
+                              k.MaKhachHang,
+							  k.TenKhachHang,
+							  k.DiaChi,
+							  k.GioiTinh,
+							  k.SoDienThoai
+                        INTO #Results1
+                        FROM tbl_KhachHang AS k
+					    WHERE  (@ten_khach = '' Or k.TenKhachHang like N'%'+@ten_khach+'%') and						
+						(@dia_chi = '' Or k.DiaChi like N'%'+@dia_chi+'%');                   
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1
+						ORDER BY #Results1.MakhachHang asc
+                        DROP TABLE #Results1; 
+            END;
+            ELSE
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenKhachHang ASC)) AS RowNumber, 
+                              k.MaKhachHang,
+							  k.TenKhachHang,
+							  k.DiaChi,
+							  k.GioiTinh,
+							  k.SoDienThoai
+                        INTO #Results2
+                        FROM tbl_KhachHang AS k
+					    WHERE  (@ten_khach = '' Or k.TenKhachHang like N'%'+@ten_khach+'%') and						
+						(@dia_chi = '' Or k.DiaChi like N'%'+@dia_chi+'%');                   
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2;                        
+                        DROP TABLE #Results1; 
+        END;
+    END;
+
+	select * from tbl_KhachHang
+
+	exec Proc_KhachHang 1,3,'Nguyen','Hanoi'
+
+
+//----------------------------------------------------------------------- Product ----------------------------------------------------------------------
+
+alter proc Proc_getsanpham
+@MaSanPham char(10)
+as
+BEGIN
+    select* FROM tbl_SanPham WHERE MaSanPham =@MaSanPham
+END
+GO
+
+
+CREATE PROC Proc_themsanpham
+@MaSanPham char(10),
+@TenHang Nvarchar(50),
+@MaLoaiHang char(10),
+@SoLuong int,
+@MoTa varchar(100)
+AS
+BEGIN
+    INSERT INTO tbl_SanPham
+    VALUES(  @MaSanPham,@TenHang,@MaLoaiHang,@SoLuong,@MoTa)
+END
+GO
+exec Proc_themsanpham'SP005',N'Máy tính bảng ','LH005','10',N'Là máy tính phù hợp cho những tác vụ giải trí';
+
+CREATE PROC Proc_Suasp
+@MaSanPham char(10),
+@TenHang Nvarchar(50),
+@MaLoaiHang char(10),
+@SoLuong int,
+@MoTa varchar(100)
+AS
+BEGIN
+    UPDATE tbl_SanPham SET MaSanPham = @MaSanPham, TenHang = @TenHang, MaLoaiHang = @MaLoaiHang, SoLuong = @SoLuong,MoTa = @MoTa
+    WHERE MaSanPham = @MaSanPham
+END
+GO
+-----gọi thủ tục sửa 
+exec Proc_Suasp'SP005',N'Máy tính của dân IT','LH005','100',N'Máy tính này có nhiều thứ thật thú zị '
+
+select * from tbl_SanPham
+
+
+ALTER PROCEDURE Proc_SanPham (
+	@page_index  INT, 
+	@page_size   INT,
+	@ten_hang Nvarchar(50)
+)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenHang ASC)) AS RowNumber, 
+                              sp.MaSanPham,
+							  sp.TenHang,
+							  sp.MaLoaiHang,
+							  sp.SoLuong,
+							  sp.MoTa
+                        INTO #Results1
+                        FROM tbl_SanPham AS sp
+					    WHERE  (@ten_hang = '' Or sp.TenHang like N'%'+	@ten_hang+'%')                  
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1
+						ORDER BY #Results1.TenHang asc
+                        DROP TABLE #Results1; 
+            END;
+            ELSE
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenHang ASC)) AS RowNumber, 
+                              sp.MaSanPham,
+							  sp.TenHang,
+							  sp.MaLoaiHang,
+							  sp.SoLuong,
+							  sp.MoTa
+                        INTO #Results2
+                        FROM tbl_SanPham AS sp
+					    WHERE  (@ten_hang = '' Or sp.TenHang like N'%'+@ten_hang+'%')             
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2;                        
+                        DROP TABLE #Results1; 
+        END;
+    END;
+
+	select * from tbl_SanPham
+
+	exec Proc_SanPham 1,2,N'Máy tính '
+
+CREATE PROC Proc_xoasp
+@MaSanPham nvarchar(10)
+AS
+BEGIN
+    DELETE FROM tbl_SanPham WHERE MaSanPham =@MaSanPham
+END
+GO
+
+exec Proc_xoasp 'SP006'
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE PROC Proc_sp_hoadon_get_by_id(@MaHoaDon int)
+AS
+    BEGIN
+        SELECT h.*, 
+        (
+            SELECT c.*
+            FROM tbl_ChiTietHoaDon AS c
+            WHERE h.MaHoaDon = c.MaHoaDon FOR JSON PATH
+        ) AS list_json_chitiethoadon
+        FROM tbl_HoaDon AS h
+        WHERE  h.MaHoaDon = @MaHoaDon;
+    END;
+GO

@@ -16,7 +16,7 @@ namespace BTL_API.Controllers
         }
         [Route("get-by-id/{id}")]
         [HttpGet]
-        public HoaDonDTO GetDatabyID(string id)
+        public HoaDonDTO GetDatabyID(int id)
         {
             return _hoadonBusiness.GetDatabyID(id);
         }
