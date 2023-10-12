@@ -23,7 +23,9 @@ builder.Services.AddTransient<IKhachHangBLL, KhachHangBLL>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserBLL, UserBLL>();
 builder.Services.AddTransient<ISanPhamRepository, SanPhamRepository>();
-builder.Services.AddTransient<ISanPhamBLL, SanPhamBLL>(); 
+builder.Services.AddTransient<ISanPhamBLL, SanPhamBLL>();
+builder.Services.AddTransient<IHoaDonRepository, HoaDonRepository>();
+builder.Services.AddTransient<IHoaDonBLL, HoaDonBLL>();
 
 // configure strongly typed settings objects
 IConfiguration configuration = builder.Configuration;

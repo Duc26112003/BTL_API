@@ -44,7 +44,7 @@ namespace BTL_API.Controllers
                 var pageIndex = int.Parse(formData["pageIndex"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string ten_hang = null;
-                if (formData.Keys.Contains("ten_sanpham") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_hang"])))
+                if (formData.Keys.Contains("ten_hang") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_hang"])))
                 {
                     ten_hang = Convert.ToString(formData["ten_hang"]);
                 }
@@ -64,6 +64,13 @@ namespace BTL_API.Controllers
             {
                 throw new Exception(ex.Message);
             }
+        }
+        [Route("delete-sanpham")]
+        [HttpDelete]
+        public IActionResult DeleteItem(string MaSanPham)
+        {
+            _sanphamBusiness.Delete(MaSanPham);
+            return Ok(MaSanPham);
         }
     }
 }

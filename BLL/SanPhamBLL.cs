@@ -25,6 +25,10 @@ namespace BLL
         {
             return _res.Update(model);
         }
+        public bool Delete(string  MaSanPham)
+        {
+            return _res.Delete( MaSanPham);
+        }
         public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_hang)
         {
             return _res.Search(pageIndex, pageSize, out total, ten_hang);
