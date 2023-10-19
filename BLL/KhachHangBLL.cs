@@ -15,6 +15,10 @@ namespace BLL
         {
             return _res.GetDatabyID(id);
         }
+        public List<KhachHangDTO> GetData()
+        {
+            return _res.GetData();
+        }
         public bool Create(KhachHangDTO model)
         {
             return _res.Create(model);

@@ -31,10 +31,13 @@ namespace DAL
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_hoadon_create",
-                "@TenKH", model.TenKhachHang,
-                "@Diachi", model.Diachi,
-                "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null);
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_sp_hoadon_create",
+                "@MaHoaDon", model.MaHoaDon,
+                "@TenKhachHang", model.TenKhachHang,
+                "@GioiTinh", model.GioiTinh
+,                "@DiaChi", model.Diachi,
+                "@TrangThai", model.TrangThai,
+                "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null); ;
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception(Convert.ToString(result) + msgError);
@@ -52,9 +55,11 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_hoa_don_update",
-                "@MaHoaDon", model.MaHoaDon,
+                
                 "@TenKhachHang", model.TenKhachHang,
+                "@GioiTinh", model.GioiTinh,
                 "@Diachi", model.Diachi,
+                "@TrangThai", model.TrangThai,
                 "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {

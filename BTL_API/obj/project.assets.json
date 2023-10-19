@@ -3551,11 +3551,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\New folder\\BTL_API\\BTL_API\\BTL_API.csproj",
+      "projectUniqueName": "D:\\Bai  Tap Lon\\BTL_API\\BTL_API\\BTL_API.csproj",
       "projectName": "BTL_API",
-      "projectPath": "D:\\New folder\\BTL_API\\BTL_API\\BTL_API.csproj",
+      "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\BTL_API\\BTL_API.csproj",
       "packagesPath": "C:\\Users\\duc56\\.nuget\\packages\\",
-      "outputPath": "D:\\New folder\\BTL_API\\BTL_API\\obj\\",
+      "outputPath": "D:\\Bai  Tap Lon\\BTL_API\\BTL_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\duc56\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3572,11 +3572,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\New folder\\BTL_API\\BLL\\BLL.csproj": {
-              "projectPath": "D:\\New folder\\BTL_API\\BLL\\BLL.csproj"
+            "D:\\Bai  Tap Lon\\BTL_API\\BLL\\BLL.csproj": {
+              "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\BLL\\BLL.csproj"
             },
-            "D:\\New folder\\BTL_API\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\New folder\\BTL_API\\DTO\\DTO.csproj"
+            "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj": {
+              "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj"
             }
           }
         }

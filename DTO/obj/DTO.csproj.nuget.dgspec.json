@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\New folder\\BTL_API\\DTO\\DTO.csproj": {}
+    "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj": {}
   },
   "projects": {
-    "D:\\New folder\\BTL_API\\DTO\\DTO.csproj": {
+    "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\New folder\\BTL_API\\DTO\\DTO.csproj",
+        "projectUniqueName": "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "D:\\New folder\\BTL_API\\DTO\\DTO.csproj",
+        "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj",
         "packagesPath": "C:\\Users\\duc56\\.nuget\\packages\\",
-        "outputPath": "D:\\New folder\\BTL_API\\DTO\\obj\\",
+        "outputPath": "D:\\Bai  Tap Lon\\BTL_API\\DTO\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\duc56\\AppData\\Roaming\\NuGet\\NuGet.Config",

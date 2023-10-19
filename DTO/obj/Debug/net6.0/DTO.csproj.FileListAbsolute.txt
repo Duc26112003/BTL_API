@@ -10,3 +10,15 @@ D:\New folder\BTL_API\DTO\obj\Debug\net6.0\DTO.dll
 D:\New folder\BTL_API\DTO\obj\Debug\net6.0\refint\DTO.dll
 D:\New folder\BTL_API\DTO\obj\Debug\net6.0\DTO.pdb
 D:\New folder\BTL_API\DTO\obj\Debug\net6.0\ref\DTO.dll
+D:\Bai  Tap Lon\BTL_API\DTO\bin\Debug\net6.0\DTO.deps.json
+D:\Bai  Tap Lon\BTL_API\DTO\bin\Debug\net6.0\DTO.dll
+D:\Bai  Tap Lon\BTL_API\DTO\bin\Debug\net6.0\DTO.pdb
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.csproj.AssemblyReference.cache
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.AssemblyInfoInputs.cache
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.AssemblyInfo.cs
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.csproj.CoreCompileInputs.cache
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.dll
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\refint\DTO.dll
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\DTO.pdb
+D:\Bai  Tap Lon\BTL_API\DTO\obj\Debug\net6.0\ref\DTO.dll

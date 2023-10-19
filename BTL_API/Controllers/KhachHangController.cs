@@ -86,6 +86,14 @@ namespace BTL_API.Controllers
             _khachHangBLL.Delete(MaKhachHang);
             return Ok(MaKhachHang);
         }
+        [Route("get-all-khach")]
+        [HttpGet]
+        public IActionResult GetAllKhachHang()
+        {
+            var allKhachHang = _khachHangBLL.GetData();
+            return Ok(allKhachHang);
+        }
+
 
 
     }

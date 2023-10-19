@@ -2495,11 +2495,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\New folder\\BTL_API\\DAL\\DAL.csproj",
+      "projectUniqueName": "D:\\Bai  Tap Lon\\BTL_API\\DAL\\DAL.csproj",
       "projectName": "DAL",
-      "projectPath": "D:\\New folder\\BTL_API\\DAL\\DAL.csproj",
+      "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\DAL\\DAL.csproj",
       "packagesPath": "C:\\Users\\duc56\\.nuget\\packages\\",
-      "outputPath": "D:\\New folder\\BTL_API\\DAL\\obj\\",
+      "outputPath": "D:\\Bai  Tap Lon\\BTL_API\\DAL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\duc56\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2516,8 +2516,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\New folder\\BTL_API\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\New folder\\BTL_API\\DTO\\DTO.csproj"
+            "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj": {
+              "projectPath": "D:\\Bai  Tap Lon\\BTL_API\\DTO\\DTO.csproj"
             }
           }
         }

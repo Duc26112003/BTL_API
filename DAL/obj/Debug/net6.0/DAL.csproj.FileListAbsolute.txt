@@ -13,3 +13,18 @@ D:\New folder\BTL_API\DAL\obj\Debug\net6.0\DAL.dll
 D:\New folder\BTL_API\DAL\obj\Debug\net6.0\refint\DAL.dll
 D:\New folder\BTL_API\DAL\obj\Debug\net6.0\DAL.pdb
 D:\New folder\BTL_API\DAL\obj\Debug\net6.0\ref\DAL.dll
+D:\Bai  Tap Lon\BTL_API\DAL\bin\Debug\net6.0\DAL.deps.json
+D:\Bai  Tap Lon\BTL_API\DAL\bin\Debug\net6.0\DAL.dll
+D:\Bai  Tap Lon\BTL_API\DAL\bin\Debug\net6.0\DAL.pdb
+D:\Bai  Tap Lon\BTL_API\DAL\bin\Debug\net6.0\DTO.dll
+D:\Bai  Tap Lon\BTL_API\DAL\bin\Debug\net6.0\DTO.pdb
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.csproj.CopyComplete
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.dll
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\refint\DAL.dll
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\DAL.pdb
+D:\Bai  Tap Lon\BTL_API\DAL\obj\Debug\net6.0\ref\DAL.dll

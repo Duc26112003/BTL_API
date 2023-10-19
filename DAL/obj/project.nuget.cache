@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/9YWS79FfqqIehHbEOoTu7hh5MJX4nTrF5C/UpMXz4OasDE6QbwoegHqgZy7Gi8O82nJ/JENSujIvL3DW3DBdw==",
+  "dgSpecHash": "YJZg4PAyeiVhFnqjcXieK5sVZhzH6a+nN0zhhF3oQ66r7muVoWsd0hlR3a9KCwoW3FuAtAHqoO8sKRcC9vIR4g==",
   "success": true,
-  "projectFilePath": "D:\\New folder\\BTL_API\\DAL\\DAL.csproj",
+  "projectFilePath": "D:\\Bai  Tap Lon\\BTL_API\\DAL\\DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\duc56\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\duc56\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

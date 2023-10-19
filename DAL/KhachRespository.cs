@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,22 @@ namespace DAL
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
                     return dt.ConvertTo<KhachHangDTO>().FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            public List<KhachHangDTO> GetAllKhachHang()
+            {
+                string msgError = "";
+                try
+                {
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllKhachHang");
+                    if (!string.IsNullOrEmpty(msgError))
+                        throw new Exception(msgError);
+                    return (List<KhachHangDTO>)dt.ConvertTo<KhachHangDTO>();
                 }
                 catch (Exception ex)
                 {
@@ -125,6 +142,24 @@ namespace DAL
                 }
 
             }
+
+            public List<KhachHangDTO> GetData()
+            {
+                string msgError = "";
+                try
+                {
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllKhachHang");
+                    if (!string.IsNullOrEmpty(msgError))
+                        throw new Exception(msgError);
+                    return (List<KhachHangDTO>)dt.ConvertTo<KhachHangDTO>();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+
 
         }
     }
