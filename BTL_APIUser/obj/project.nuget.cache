@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "PKmTlJ3CLuoT4l1SR+duiQhufoK1W1SItOZbWO9HuSk3ofd1KTOmsdHuc1JTI7ft5EqJOM/Demlnhc+eFvLHKw==",
+  "success": true,
+  "projectFilePath": "D:\\Bai  Tap Lon\\BTL_API\\BTL_APIUser\\BTL_APIUser.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\duc56\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\duc56\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\duc56\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\duc56\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\duc56\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\duc56\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

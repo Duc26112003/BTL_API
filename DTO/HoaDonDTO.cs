@@ -8,11 +8,11 @@ namespace DTO
 {
     public class HoaDonDTO
     {
-        public string MaHoaDon { get; set; }
+        public int MaHoaDon { get; set; }
         public string TenKhachHang { get; set; }
         public bool GioiTinh { get; set; }
         public string Diachi { get; set; }
-        public string TrangThai { get; set; }
+        public bool TrangThai { get; set; }
         public List<ChiTietHoaDonDTO> list_json_chitiethoadon { get; set; }
     }
     public class ChiTietHoaDonDTO
@@ -21,7 +21,7 @@ namespace DTO
         public int MaHoaDon { get; set; }
         public int MaSanPham { get; set; }
         public int SoLuong { get; set; }
-        public double TongGia { get; set; }
+        public int TongGia { get; set; }
         public int status { get; set; }
     }
 }

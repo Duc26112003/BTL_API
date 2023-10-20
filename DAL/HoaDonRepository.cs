@@ -32,10 +32,9 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_sp_hoadon_create",
-                "@MaHoaDon", model.MaHoaDon,
                 "@TenKhachHang", model.TenKhachHang,
                 "@GioiTinh", model.GioiTinh
-,                "@DiaChi", model.Diachi,
+,               "@DiaChi", model.Diachi,
                 "@TrangThai", model.TrangThai,
                 "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null); ;
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))

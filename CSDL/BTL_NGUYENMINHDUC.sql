@@ -5,23 +5,25 @@ GO
 -- Bảng Chi Tiết Hóa Đơn
 CREATE TABLE tbl_ChiTietHoaDon (
     MaChiTietHoaDon int IDENTITY(1,1) not null,
-    MaHoaDon int ,
-    MaSanPham char(10), 
-    SoLuong int,
-    TongGia decimal(18, 0),
+    MaHoaDon int,
+    MaSanPham int, 
+    SoLuong int null,
+    TongGia int ,
     CONSTRAINT PK_MaChiTietHoaDon PRIMARY KEY (MaChiTietHoaDon),
     CONSTRAINT FK_MaHoaDon_ChiTietHoaDon FOREIGN KEY (MaHoaDon) REFERENCES tbl_HoaDon(MaHoaDon),
     CONSTRAINT FK_MaSanPham_ChiTietHoaDon FOREIGN KEY (MaSanPham) REFERENCES tbl_SanPham(MaSanPham)
 );
 
+drop table tbl_ChiTietHoaDon
+
 -- Bảng Hóa Đơn
 CREATE TABLE tbl_HoaDon (
     MaHoaDon int IDENTITY(1,1) not null,
-    TongGia decimal(18, 0) not null,
+    TongGia int null,
     NgayTao datetime null,
     NgayDuyet datetime null,
     TenKhachHang NVARCHAR(50) not null,
-    GioiTinh nvarchar(10),
+    GioiTinh bit null,
     DiaChi nvarchar(250),
     SoDienThoai nvarchar(10),
 	TrangThai bit null
@@ -33,7 +35,7 @@ GO
 
 -- Bảng Sản Phẩm
 CREATE TABLE tbl_SanPham (
-    MaSanPham char(10) CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
+    MaSanPham int IDENTITY(1,1)  CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
     TenHang NVARCHAR(50) null,
     MaLoaiHang char(10) not null,
     SoLuong INT not null,
@@ -110,18 +112,26 @@ VALUES (1, N'Admin'),
 -- Thêm dữ liệu vào bảng sản phẩm 
 INSERT INTO tbl_SanPham (MaSanPham, TenHang, MaLoaiHang, SoLuong, MoTa, TrangThai)
 VALUES
-    ('SP001', N'Máy tính ', 'LH001', 100, N'Máy tính dành cho dân văn phòng ',1),
-    ('SP002', N'Máy tính ', 'LH002', 50, N'Máy tính dành cho game thủ ',0),
-    ('SP003', N'Điện Thoại ', 'LH001', 75, N'Điện thoại Iphone 15',0),
-    ('SP004', N'Laptop', 'LH003', 120, N'Laptop dành cho đồ họa',1);
+    (1, N'Máy tính ', 'LH001', 100, N'Máy tính dành cho dân văn phòng ',1),
+    (3, N'Máy tính ', 'LH002', 50, N'Máy tính dành cho game thủ ',0),
+    (5, N'Điện Thoại ', 'LH001', 75, N'Điện thoại Iphone 15',0),
+    (6, N'Laptop', 'LH003', 120, N'Laptop dành cho đồ họa',1);
 
-	DELETE FROM tbl_SanPham;
+	DELETE FROM tbl_ChiTietHoaDon;
 
+	SET IDENTITY_INSERT tbl_ChiTietHoaDon  ON;
+INSERT INTO tbl_ChiTietHoaDon (MaChiTietHoaDon , MaHoaDon, MaSanPham, SoLuong, TongGia)
+VALUES (1, 1, 6, 4, 49500000 )
+	SET IDENTITY_INSERT tbl_ChiTietHoaDon  OFF;
+
+	delete from tbl_ChiTietHoaDon
+
+	SET IDENTITY_INSERT tbl_HoaDon  ON;
 -- Thêm một bản ghi vào bảng tbl_HoaDon
 INSERT INTO tbl_HoaDon (MaHoaDon, TongGia, NgayTao, NgayDuyet, TenKhachHang, GioiTinh, DiaChi, SoDienThoai, TrangThai)
 VALUES
-    (1, 1000, '2023-10-12', '2023-10-15', N'Manh Cuong', N'Nam', N'Sai Gon', N'1234567890', 1);
-
+    (1, 1000, '2023-10-12', '2023-10-15', 'Manh Cuong', 0, 'Sai Gon', '1234567890', 1);
+	SET IDENTITY_INSERT tbl_HoaDon  OFF;
 
 -- Thêm nhân viên 
 INSERT INTO tbl_NhanVien (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai, Email)VALUES 
@@ -455,13 +465,19 @@ AS
 GO
 
 
+CREATE PROCEDURE Proc_GetAllKhachHang
+AS
+BEGIN
+    SELECT * FROM tbl_KhachHang;
+END;
 
 
-CREATE PROC Proc_sp_hoadon_create
+
+ALTER PROC Proc_sp_hoadon_create
 (@TenKhachHang   NVARCHAR(50), 
-@GioiTinh nvarchar(50), 
- @DiaChi  NVARCHAR(250), 
- @TrangThai  bit,  
+ @GioiTinh		 bit, 
+ @DiaChi		 NVARCHAR(250), 
+ @TrangThai		 bit,  
  @list_json_chitiethoadon NVARCHAR(MAX)
 )
 AS
@@ -469,13 +485,13 @@ AS
 		DECLARE @MaHoaDon INT;
         INSERT INTO tbl_HoaDon
                 (TenKhachHang, 
-				GioiTinh,
-                 Diachi, 
-                 TrangThai               
+				 GioiTinh,
+                 Diachi,  
+                 TrangThai              
                 )
                 VALUES
                 (@TenKhachHang, 
-				@GioiTinh,
+				 @GioiTinh,
                  @DiaChi, 
                  @TrangThai
                 );
