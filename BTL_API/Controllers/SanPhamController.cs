@@ -7,7 +7,7 @@ namespace BTL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class  SanPhamController : ControllerBase
+    public class SanPhamController : ControllerBase
     {
         private ISanPhamBLL _sanphamBusiness;
         public SanPhamController(ISanPhamBLL sanphamBusiness)
@@ -20,6 +20,14 @@ namespace BTL_API.Controllers
         {
             return _sanphamBusiness.GetDatabyID(id);
         }
+        [Route("get-by-TenHang/{TenHang}")]
+        [HttpGet]
+        public SanPhamDTO GetTenHang(string TenHang) 
+        {
+            return _sanphamBusiness.GetTenHang(TenHang);
+        }
+
+
         [Route("create-sanpham")]
         [HttpPost]
         public SanPhamDTO CreateItem([FromBody] SanPhamDTO model)

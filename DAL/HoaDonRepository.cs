@@ -53,10 +53,10 @@ namespace DAL
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_hoa_don_update",
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_sp_hoa_don_update",
                 
+                "@MaHoaDon", model.MaHoaDon,
                 "@TenKhachHang", model.TenKhachHang,
-                "@GioiTinh", model.GioiTinh,
                 "@Diachi", model.Diachi,
                 "@TrangThai", model.TrangThai,
                 "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null);

@@ -11,6 +11,7 @@ namespace DAL
     public partial interface ISanPhamRepository
     {
         SanPhamDTO GetDatabyID(string id);
+        SanPhamDTO GetTenHang(string TenHang);
         bool Create(SanPhamDTO model);
         bool Update(SanPhamDTO model);
         bool Delete(string  MaSanPham);

@@ -37,7 +37,7 @@ GO
 CREATE TABLE tbl_SanPham (
     MaSanPham int IDENTITY(1,1)  CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
     TenHang NVARCHAR(50) null,
-    MaLoaiHang char(10) not null,
+    MaLoaiHang int not null,
     SoLuong INT not null,
     MoTa VARCHAR(100) not null
 );
@@ -109,22 +109,20 @@ INSERT INTO LoaiTaiKhoan (LoaiTaiKhoanID, TenLoaiTaiKhoan)
 VALUES (1, N'Admin'),
        (2, N'Người dùng');
 
+	SET IDENTITY_INSERT tbl_SanPham  ON;
 -- Thêm dữ liệu vào bảng sản phẩm 
 INSERT INTO tbl_SanPham (MaSanPham, TenHang, MaLoaiHang, SoLuong, MoTa, TrangThai)
 VALUES
-    (1, N'Máy tính ', 'LH001', 100, N'Máy tính dành cho dân văn phòng ',1),
-    (3, N'Máy tính ', 'LH002', 50, N'Máy tính dành cho game thủ ',0),
-    (5, N'Điện Thoại ', 'LH001', 75, N'Điện thoại Iphone 15',0),
-    (6, N'Laptop', 'LH003', 120, N'Laptop dành cho đồ họa',1);
-
-	DELETE FROM tbl_ChiTietHoaDon;
-
+    (1, N'Máy tính ', '001', 100, N'Máy tính dành cho dân văn phòng ',1),
+    (3, N'Máy tính ', '002', 50, N'Máy tính dành cho game thủ ',0),
+    (5, N'Điện Thoại ', '001', 75, N'Điện thoại Iphone 15',0),
+    (6, N'Laptop', '003', 120, N'Laptop dành cho đồ họa',1);
+	SET IDENTITY_INSERT tbl_SanPham  OFF;
+	
 	SET IDENTITY_INSERT tbl_ChiTietHoaDon  ON;
 INSERT INTO tbl_ChiTietHoaDon (MaChiTietHoaDon , MaHoaDon, MaSanPham, SoLuong, TongGia)
 VALUES (1, 1, 6, 4, 49500000 )
 	SET IDENTITY_INSERT tbl_ChiTietHoaDon  OFF;
-
-	delete from tbl_ChiTietHoaDon
 
 	SET IDENTITY_INSERT tbl_HoaDon  ON;
 -- Thêm một bản ghi vào bảng tbl_HoaDon
@@ -344,13 +342,23 @@ as
 BEGIN
     select* FROM tbl_SanPham WHERE MaSanPham =@MaSanPham
 END
+GO`
+
+ALTER PROC Proc_getname
+@TenHang nvarchar(50)
+as 
+begin 
+	SELECT * FROM tbl_SanPham WHERE TenHang = @TenHang;
+END
 GO
+select * from tbl_sanpham
 
+EXEC Proc_getname @TenHang = N'Máy tính'
 
-CREATE PROC Proc_themsanpham
-@MaSanPham char(10),
+ALTER PROC Proc_themsanpham
+@MaSanPham int,
 @TenHang Nvarchar(50),
-@MaLoaiHang char(10),
+@MaLoaiHang int,
 @SoLuong int,
 @MoTa varchar(100)
 AS
@@ -359,10 +367,12 @@ BEGIN
     VALUES(  @MaSanPham,@TenHang,@MaLoaiHang,@SoLuong,@MoTa)
 END
 GO
-exec Proc_themsanpham'SP005',N'Máy tính bảng ','LH005','10',N'Là máy tính phù hợp cho những tác vụ giải trí';
+exec Proc_themsanpham'5','May tinh bang','5','10',' La may tinh dan cho dan ki thuat';
+
+select * from tbl_sanpham
 
 CREATE PROC Proc_Suasp
-@MaSanPham char(10),
+@MaSanPham int,
 @TenHang Nvarchar(50),
 @MaLoaiHang char(10),
 @SoLuong int,
@@ -515,65 +525,68 @@ AS
     END;
 
 	select * from tbl_SanPham
+	select * from tbl_HoaDon
+	select * from tbl_ChiTietHoaDon
 
 
---CREATE PROCEDURE Proc_sp_hoa_don_update
---(@MaHoaDon        int, 
--- @TenKH              NVARCHAR(50), 
--- @Diachi          NVARCHAR(250), 
--- @TrangThai         bit,  
--- @list_json_chitiethoadon NVARCHAR(MAX)
---)
---AS
---    BEGIN
---		UPDATE HoaDons
---		SET
---			TenKH  = @TenKH ,
---			Diachi = @Diachi,
---			TrangThai = @TrangThai
---		WHERE MaHoaDon = @MaHoaDon;
+CREATE  PROC Proc_sp_hoa_don_update
+(@MaHoaDon        int, 
+ @TenKhachHang              NVARCHAR(50), 
+ @Diachi          NVARCHAR(250), 
+ @TrangThai         bit,  
+ @list_json_chitiethoadon NVARCHAR(MAX)
+)
+AS
+    BEGIN
+		UPDATE tbl_HoaDon
+		SET
+			TenKhachHang  = @TenKhachHang,
+			Diachi = @Diachi,
+			TrangThai = @TrangThai
+		WHERE MaHoaDon = @MaHoaDon;
 		
---		IF(@list_json_chitiethoadon IS NOT NULL) 
---		BEGIN
---			 -- Insert data to temp table 
---		   SELECT
---			  JSON_VALUE(p.value, '$.maChiTietHoaDon') as maChiTietHoaDon,
---			  JSON_VALUE(p.value, '$.maHoaDon') as maHoaDon,
---			  JSON_VALUE(p.value, '$.maSanPham') as maSanPham,
---			  JSON_VALUE(p.value, '$.soLuong') as soLuong,
---			  JSON_VALUE(p.value, '$.tongGia') as tongGia,
---			  JSON_VALUE(p.value, '$.status') AS status 
---			  INTO #Results 
---		   FROM OPENJSON(@list_json_chitiethoadon) AS p;
+		IF(@list_json_chitiethoadon IS NOT NULL) 
+		BEGIN
+			 -- Insert data to temp table 
+		   SELECT
+			  JSON_VALUE(p.value, '$.maChiTietHoaDon') as maChiTietHoaDon,
+			  JSON_VALUE(p.value, '$.maHoaDon') as maHoaDon,
+			  JSON_VALUE(p.value, '$.maSanPham') as maSanPham,
+			  JSON_VALUE(p.value, '$.soLuong') as soLuong,
+			  JSON_VALUE(p.value, '$.tongGia') as tongGia,
+			  JSON_VALUE(p.value, '$.status') AS status 
+			  INTO #Results 
+		   FROM OPENJSON(@list_json_chitiethoadon) AS p;
 		 
---		 -- Insert data to table with STATUS = 1;
---			INSERT INTO ChiTietHoaDons (MaSanPham, 
---						  MaHoaDon,
---                          SoLuong, 
---                          TongGia ) 
---			   SELECT
---				  #Results.maSanPham,
---				  @MaHoaDon,
---				  #Results.soLuong,
---				  #Results.tongGia			 
---			   FROM  #Results 
---			   WHERE #Results.status = '1' 
+		 -- Insert data to table with STATUS = 1;
+			INSERT INTO tbl_ChiTietHoaDon (
+						  MaSanPham, 
+						  MaHoaDon,
+                          SoLuong, 
+                          TongGia ) 
+			   SELECT
+				  #Results.maSanPham,
+				  @MaHoaDon,
+				  #Results.soLuong,
+				  #Results.tongGia			 
+			   FROM  #Results 
+			   WHERE #Results.status = '1' 
 			
---			-- Update data to table with STATUS = 2
---			  UPDATE ChiTietHoaDons 
---			  SET
---				 SoLuong = #Results.soLuong,
---				 TongGia = #Results.tongGia
---			  FROM #Results 
---			  WHERE  ChiTietHoaDons.maChiTietHoaDon = #Results.maChiTietHoaDon AND #Results.status = '2';
+			-- Update data to table with STATUS = 2
+			  UPDATE tbl_ChiTietHoaDon 
+			  SET
+				 SoLuong = #Results.soLuong,
+				 TongGia = #Results.tongGia
+			  FROM #Results 
+			  WHERE  tbl_ChiTietHoaDon.MaChiTietHoaDon = #Results.MaChiTietHoaDon AND #Results.status = '2';
 			
---			-- Delete data to table with STATUS = 3
---			DELETE C
---			FROM ChiTietHoaDons C
---			INNER JOIN #Results R
---				ON C.maChiTietHoaDon=R.maChiTietHoaDon
---			WHERE R.status = '3';
---			DROP TABLE #Results;
---		END;
---        SELECT '';
---    END;
+			-- Delete data to table with STATUS = 3
+			DELETE C
+			FROM tbl_ChiTietHoaDon C
+			INNER JOIN #Results R
+				ON C.MaChiTietHoaDon=R.MaChiTietHoaDon
+			WHERE R.status = '3';
+			DROP TABLE #Results;
+		END;
+        SELECT '';
+    END;

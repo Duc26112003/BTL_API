@@ -17,6 +17,10 @@ namespace BLL
         {
             return _res.GetDatabyID(id);
         }
+        public SanPhamDTO GetTenHang(string TenHang)
+        {
+            return _res.GetTenHang(TenHang);
+        }
         public bool Create(SanPhamDTO model)
         {
             return _res.Create(model);
