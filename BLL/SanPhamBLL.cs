@@ -17,7 +17,7 @@ namespace BLL
         {
             return _res.GetDatabyID(id);
         }
-        public SanPhamDTO GetTenHang(string TenHang)
+        public List<SanPhamDTO> GetTenHang(string TenHang)
         {
             return _res.GetTenHang(TenHang);
         }

@@ -10,7 +10,7 @@ namespace BLL
     public partial interface ISanPhamBLL
     {
         SanPhamDTO GetDatabyID(string id);
-        SanPhamDTO GetTenHang(string TenHang);
+        List<SanPhamDTO> GetTenHang(string TenHang);
 
         bool Create(SanPhamDTO model);
         bool Update(SanPhamDTO model);

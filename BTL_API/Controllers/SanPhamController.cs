@@ -22,7 +22,7 @@ namespace BTL_API.Controllers
         }
         [Route("get-by-TenHang/{TenHang}")]
         [HttpGet]
-        public SanPhamDTO GetTenHang(string TenHang) 
+        public List<SanPhamDTO> GetTenHang(string TenHang) 
         {
             return _sanphamBusiness.GetTenHang(TenHang);
         }

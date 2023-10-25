@@ -1,5 +1,6 @@
 ﻿using DAL;
 using DTO;
+using System.Data;
 
 namespace DAL
 {
@@ -27,7 +28,7 @@ namespace DAL
                 throw ex;
             }
         }
-        public SanPhamDTO GetTenHang(string TenHang)
+        public List<SanPhamDTO> GetTenHang(string TenHang)
         {
             string msgError = "";
             try
@@ -36,7 +37,7 @@ namespace DAL
                      "@TenHang", TenHang);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
-                return dt.ConvertTo<SanPhamDTO>().FirstOrDefault();
+                return dt.ConvertTo<SanPhamDTO>().ToList<SanPhamDTO>();
             }
             catch (Exception ex)
             {
@@ -49,7 +50,6 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_themsanpham",
-                "@MaSanPham", model.MaSanPham,
                 "@TenHang", model.TenHang,
                 "@MaLoaiHang", model.MaLoaiHang,
                 "@SoLuong", model.SoLuong,
@@ -65,6 +65,7 @@ namespace DAL
                 throw ex;
             }
         }
+
         public bool Update(SanPhamDTO model)
         {
             string msgError = "";

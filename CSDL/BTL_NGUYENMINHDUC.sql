@@ -113,10 +113,10 @@ VALUES (1, N'Admin'),
 -- Thêm dữ liệu vào bảng sản phẩm 
 INSERT INTO tbl_SanPham (MaSanPham, TenHang, MaLoaiHang, SoLuong, MoTa, TrangThai)
 VALUES
-    (1, N'Máy tính ', '001', 100, N'Máy tính dành cho dân văn phòng ',1),
-    (3, N'Máy tính ', '002', 50, N'Máy tính dành cho game thủ ',0),
-    (5, N'Điện Thoại ', '001', 75, N'Điện thoại Iphone 15',0),
-    (6, N'Laptop', '003', 120, N'Laptop dành cho đồ họa',1);
+    (1, N'Máy tính ', '1', 100, 'Máy tính dành cho dân văn phòng ',1),
+    (3, N'Máy tính ', '2', 50, 'Máy tính dành cho game thủ ',0),
+    (5, N'Điện Thoại ', '3', 75, 'Điện thoại Iphone 15',0),
+    (6, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1);
 	SET IDENTITY_INSERT tbl_SanPham  OFF;
 	
 	SET IDENTITY_INSERT tbl_ChiTietHoaDon  ON;
@@ -342,7 +342,7 @@ as
 BEGIN
     select* FROM tbl_SanPham WHERE MaSanPham =@MaSanPham
 END
-GO`
+GO
 
 ALTER PROC Proc_getname
 @TenHang nvarchar(50)
@@ -353,25 +353,27 @@ END
 GO
 select * from tbl_sanpham
 
-EXEC Proc_getname @TenHang = N'Máy tính'
+EXEC Proc_getname @TenHang = N'Máy tính';
 
-ALTER PROC Proc_themsanpham
-@MaSanPham int,
+alter PROC Proc_themsanpham
 @TenHang Nvarchar(50),
 @MaLoaiHang int,
 @SoLuong int,
 @MoTa varchar(100)
 AS
 BEGIN
-    INSERT INTO tbl_SanPham
-    VALUES(  @MaSanPham,@TenHang,@MaLoaiHang,@SoLuong,@MoTa)
+    INSERT INTO tbl_SanPham (TenHang, MaLoaiHang, SoLuong, MoTa)
+    VALUES (@TenHang, @MaLoaiHang, @SoLuong, @MoTa)
 END
-GO
-exec Proc_themsanpham'5','May tinh bang','5','10',' La may tinh dan cho dan ki thuat';
+
+exec Proc_themsanpham 4, N'May tinh bang', 5, 10, 'La may tinh danh cho dan ki thuat';
 
 select * from tbl_sanpham
+select * from tbl_HoaDon
+select * from tbl_ChiTietHoaDon
+select * from tbl_KhachHang
 
-CREATE PROC Proc_Suasp
+ALTER PROC Proc_Suasp
 @MaSanPham int,
 @TenHang Nvarchar(50),
 @MaLoaiHang char(10),
@@ -379,68 +381,74 @@ CREATE PROC Proc_Suasp
 @MoTa varchar(100)
 AS
 BEGIN
-    UPDATE tbl_SanPham SET MaSanPham = @MaSanPham, TenHang = @TenHang, MaLoaiHang = @MaLoaiHang, SoLuong = @SoLuong,MoTa = @MoTa
+    UPDATE tbl_SanPham SET TenHang = @TenHang, MaLoaiHang = @MaLoaiHang, SoLuong = @SoLuong, MoTa = @MoTa
     WHERE MaSanPham = @MaSanPham
 END
-GO
 -----gọi thủ tục sửa 
-exec Proc_Suasp'SP005',N'Máy tính của dân IT','LH005','100',N'Máy tính này có nhiều thứ thật thú zị '
+exec Proc_Suasp 11,N'Máy tính của dân IT','6','100',N'Máy tính này có nhiều thứ thật thú zị '
 
 select * from tbl_SanPham
 
 
 ALTER PROCEDURE Proc_SanPham (
-	@page_index  INT, 
-	@page_size   INT,
+	@page_index INT, 
+	@page_size INT,
 	@ten_hang Nvarchar(50)
 )
 AS
+BEGIN
+    DECLARE @RecordCount BIGINT;
+    IF (@page_size <> 0)
     BEGIN
-        DECLARE @RecordCount BIGINT;
-        IF(@page_size <> 0)
-            BEGIN
-						SET NOCOUNT ON;
-                        SELECT(ROW_NUMBER() OVER(
-                              ORDER BY TenHang ASC)) AS RowNumber, 
-                              sp.MaSanPham,
-							  sp.TenHang,
-							  sp.MaLoaiHang,
-							  sp.SoLuong,
-							  sp.MoTa
-                        INTO #Results1
-                        FROM tbl_SanPham AS sp
-					    WHERE  (@ten_hang = '' Or sp.TenHang like N'%'+	@ten_hang+'%')                  
-                        SELECT @RecordCount = COUNT(*)
-                        FROM #Results1;
-                        SELECT *, 
-                               @RecordCount AS RecordCount
-                        FROM #Results1
-                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
-                              OR @page_index = -1
-						ORDER BY #Results1.TenHang asc
-                        DROP TABLE #Results1; 
-            END;
-            ELSE
-            BEGIN
-						SET NOCOUNT ON;
-                        SELECT(ROW_NUMBER() OVER(
-                              ORDER BY TenHang ASC)) AS RowNumber, 
-                              sp.MaSanPham,
-							  sp.TenHang,
-							  sp.MaLoaiHang,
-							  sp.SoLuong,
-							  sp.MoTa
-                        INTO #Results2
-                        FROM tbl_SanPham AS sp
-					    WHERE  (@ten_hang = '' Or sp.TenHang like N'%'+@ten_hang+'%')             
-                        SELECT @RecordCount = COUNT(*)
-                        FROM #Results2;
-                        SELECT *, 
-                               @RecordCount AS RecordCount
-                        FROM #Results2;                        
-                        DROP TABLE #Results1; 
-        END;
+        SET NOCOUNT ON;
+        SELECT
+            (ROW_NUMBER() OVER (ORDER BY TenHang ASC)) AS RowNumber,
+            sp.MaSanPham,
+            sp.TenHang,
+            sp.MaLoaiHang,
+            sp.SoLuong,
+            sp.MoTa
+        INTO #Results1
+        FROM tbl_SanPham AS sp
+        WHERE (@ten_hang = '' OR sp.TenHang LIKE '%' + @ten_hang + '%');
+
+        SELECT @RecordCount = COUNT(*)
+        FROM #Results1;
+
+        SELECT *,
+            @RecordCount AS RecordCount
+        FROM #Results1
+        WHERE ROWNUMBER BETWEEN (@page_index - 1) * @page_size + 1
+        AND ((@page_index - 1) * @page_size + 1) + @page_size - 1
+        OR @page_index = -1
+        ORDER BY #Results1.TenHang ASC;
+
+        DROP TABLE #Results1;
     END;
+    ELSE
+    BEGIN
+        SET NOCOUNT ON;
+        SELECT
+            (ROW_NUMBER() OVER (ORDER BY TenHang ASC)) AS RowNumber,
+            sp.MaSanPham,
+            sp.TenHang,
+            sp.MaLoaiHang,
+            sp.SoLuong,
+            sp.MoTa
+        INTO #Results2
+        FROM tbl_SanPham AS sp
+        WHERE (@ten_hang = '' OR sp.TenHang LIKE '%' + @ten_hang + '%');
+
+        SELECT @RecordCount = COUNT(*)
+        FROM #Results2;
+
+        SELECT *,
+            @RecordCount AS RecordCount
+        FROM #Results2;
+
+        DROP TABLE #Results1;
+    END;
+END;
 
 	select * from tbl_SanPham
 
@@ -590,3 +598,11 @@ AS
 		END;
         SELECT '';
     END;
+
+	CREATE PROC Proc_xoasp
+@MaSanPham int,
+AS
+BEGIN
+    DELETE FROM tbl_SanPham WHERE MaLoaiHang = @MaSanPham
+END
+GO
