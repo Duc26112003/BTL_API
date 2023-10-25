@@ -539,9 +539,9 @@ AS
 
 CREATE  PROC Proc_sp_hoa_don_update
 (@MaHoaDon        int, 
- @TenKhachHang              NVARCHAR(50), 
+ @TenKhachHang    NVARCHAR(50), 
  @Diachi          NVARCHAR(250), 
- @TrangThai         bit,  
+ @TrangThai       bit,  
  @list_json_chitiethoadon NVARCHAR(MAX)
 )
 AS
@@ -599,10 +599,20 @@ AS
         SELECT '';
     END;
 
-	CREATE PROC Proc_xoasp
-@MaSanPham int,
+
+-- Xóa bảng hóa đơn 
+ALTER PROC Proc_xoasp
+@MaChiTietHoaDon int
 AS
 BEGIN
-    DELETE FROM tbl_SanPham WHERE MaLoaiHang = @MaSanPham
+    DECLARE @MaHoaDonToDelete int
+    SELECT @MaHoaDonToDelete = MaHoaDon FROM tbl_ChiTietHoaDon WHERE MaChiTietHoaDon = @MaChiTietHoaDon
+
+    DELETE FROM tbl_ChiTietHoaDon WHERE MaChiTietHoaDon = @MaChiTietHoaDon
+    DELETE FROM tbl_HoaDon WHERE MaHoaDon = @MaHoaDonToDelete
 END
 GO
+
+select * from tbl_SanPham
+select * from tbl_HoaDon
+select * from tbl_ChiTietHoaDon

@@ -23,7 +23,11 @@ namespace BLL
         }
         public bool Update(HoaDonDTO model)
         {
-            return _res.Update(model);
+            return _res.Update(model); 
+        }
+        public bool Delete(string MaChiTietHoaDon)
+        {
+            return _res.Delete(MaChiTietHoaDon);
         }
         public List<ThongKeKhachDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, DateTime? fr_NgayTao, DateTime? to_NgayTao)
         {

@@ -36,6 +36,13 @@ namespace BTL_API.Controllers
             _hoadonBusiness.Update(model);
             return model;
         }
+        [Route("delete-hoadon")]
+        [HttpDelete]
+        public IActionResult Delete(string MaChiTietHoaDon)
+        {
+            _hoadonBusiness.Delete(MaChiTietHoaDon);
+            return Ok(MaChiTietHoaDon);
+        }
 
         [Route("search")]
         [HttpPost]
