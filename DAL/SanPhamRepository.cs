@@ -136,5 +136,35 @@ namespace DAL
             }
 
         }
+        public List<SanPhamDTO> GetData()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllSanPham");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return (List<SanPhamDTO>)dt.ConvertTo<SanPhamDTO>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SanPhamDTO> GetSanPhamBanChay(int top)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_getsanphambanchay","@top",top);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return (List<SanPhamDTO>)dt.ConvertTo<SanPhamDTO>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

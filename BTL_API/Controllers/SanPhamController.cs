@@ -80,6 +80,17 @@ namespace BTL_API.Controllers
             _sanphamBusiness.Delete(MaSanPham);
             return Ok(MaSanPham);
         }
+
+        [Route("get-all-sanpham")]
+        [HttpGet]
+        public IActionResult GetAllSanPham()
+        {
+            var allSanPham = _sanphamBusiness.GetData();
+            return Ok(allSanPham);
+        }
+
+        
+
     }
 }
 

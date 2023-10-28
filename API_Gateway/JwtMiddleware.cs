@@ -1,5 +1,4 @@
-﻿using BanMayTinh_Gateway.Helpers;
-using BanMayTinh_Gateway.Models;
+﻿using API_Gateway.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +9,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 
-namespace BanMayTinh_Gateway
+namespace API_Gateway
 {
     public class JwtMiddleware
     {

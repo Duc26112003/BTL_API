@@ -3540,7 +3540,6 @@
     "net6.0": [
       "BLL >= 1.0.0",
       "DTO >= 1.0.0",
-      "Microsoft.AspNetCore.Authentication >= 2.2.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.22",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -3591,10 +3590,6 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Authentication": {
-            "target": "Package",
-            "version": "[2.2.0, )"
-          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[6.0.22, )"

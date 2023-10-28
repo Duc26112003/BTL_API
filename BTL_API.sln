@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{F6F9ADD3-2582-4554-BE1E-617AC57C5283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTL_APIUser", "BTL_APIUser\BTL_APIUser.csproj", "{6B7E56BE-DA9E-486F-A688-B9907567B251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BTL_APIUser", "BTL_APIUser\BTL_APIUser.csproj", "{6B7E56BE-DA9E-486F-A688-B9907567B251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Gateway", "API_Gateway\API_Gateway.csproj", "{25AB55D0-6E2E-4F77-92D5-D4206272F7C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{6B7E56BE-DA9E-486F-A688-B9907567B251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B7E56BE-DA9E-486F-A688-B9907567B251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B7E56BE-DA9E-486F-A688-B9907567B251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25AB55D0-6E2E-4F77-92D5-D4206272F7C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25AB55D0-6E2E-4F77-92D5-D4206272F7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25AB55D0-6E2E-4F77-92D5-D4206272F7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25AB55D0-6E2E-4F77-92D5-D4206272F7C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

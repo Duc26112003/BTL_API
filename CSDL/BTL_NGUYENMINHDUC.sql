@@ -102,7 +102,7 @@ CREATE TABLE tbl_KhachHang (
     DiaChi VARCHAR(100) not null,
     SoDienThoai VARCHAR(10) not null CONSTRAINT chk_SoDienThoai CHECK(SoDienThoai LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 );
-GO
+
 
 -- Thêm dữ liệu các loại tài khoản 
 INSERT INTO LoaiTaiKhoan (LoaiTaiKhoanID, TenLoaiTaiKhoan)
@@ -489,6 +489,11 @@ BEGIN
     SELECT * FROM tbl_KhachHang;
 END;
 
+CREATE PROCEDURE Proc_GetAllSanPham
+AS
+BEGIN
+    SELECT * FROM tbl_SanPham;
+END;
 
 
 ALTER PROC Proc_sp_hoadon_create
@@ -616,3 +621,12 @@ GO
 select * from tbl_SanPham
 select * from tbl_HoaDon
 select * from tbl_ChiTietHoaDon
+
+-- Tạo lấy sản phẩm bán chạy theo số lượng 
+ALTER PROC Proc_getsanphambanchay
+	@top int
+AS
+BEGIN
+    -- Lấy ra các sản phẩm có số lượng lớn hơn 100
+    SELECT Top(@top)* FROM tbl_SanPham WHERE SoLuong >= 100; 
+END

@@ -10,7 +10,6 @@
         "dependencies": {
           "BLL": "1.0.0",
           "DTO": "1.0.0",
-          "Microsoft.AspNetCore.Authentication": "2.2.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.22",
           "Swashbuckle.AspNetCore": "6.5.0"
         },

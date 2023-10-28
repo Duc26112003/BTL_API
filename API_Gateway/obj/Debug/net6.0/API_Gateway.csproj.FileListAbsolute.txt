@@ -1,0 +1,7 @@
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.csproj.AssemblyReference.cache
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.AssemblyInfoInputs.cache
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.AssemblyInfo.cs
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.csproj.CoreCompileInputs.cache
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.MvcApplicationPartsAssemblyInfo.cs
+D:\Bai  Tap Lon\BTL_API\API_Gateway\obj\Debug\net6.0\API_Gateway.MvcApplicationPartsAssemblyInfo.cache

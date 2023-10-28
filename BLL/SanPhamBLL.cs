@@ -21,6 +21,15 @@ namespace BLL
         {
             return _res.GetTenHang(TenHang);
         }
+
+        public List<SanPhamDTO> GetData()
+        {
+            return _res.GetData();
+        }
+        public List<SanPhamDTO> GetSanPhamBanChay(int top)
+        {
+            return _res.GetSanPhamBanChay(top);
+        }
         public bool Create(SanPhamDTO model)
         {
             return _res.Create(model);
@@ -33,6 +42,7 @@ namespace BLL
         {
             return _res.Delete( MaSanPham);
         }
+        
         public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_hang)
         {
             return _res.Search(pageIndex, pageSize, out total, ten_hang);
