@@ -9,7 +9,7 @@ namespace DTO
     public  class SanPhamDTO
     {
         public int MaSanPham { get; set; }
-        public string  TenHang { get; set;}
+        public string  TenSanPham { get; set;}
         public int MaLoaiHang { get; set; }
         public int SoLuong { get; set; }
         public string MoTa { get; set; }

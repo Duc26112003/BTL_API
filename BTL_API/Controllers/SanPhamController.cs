@@ -20,11 +20,11 @@ namespace BTL_API.Controllers
         {
             return _sanphamBusiness.GetDatabyID(id);
         }
-        [Route("get-by-TenHang/{TenHang}")]
+        [Route("get-by-TenSanPham/{TenSanPham}")]
         [HttpGet]
-        public List<SanPhamDTO> GetTenHang(string TenHang) 
+        public List<SanPhamDTO> GetTenHang(string TenSanPham) 
         {
-            return _sanphamBusiness.GetTenHang(TenHang);
+            return _sanphamBusiness.GetTenHang(TenSanPham);
         }
 
 
@@ -51,13 +51,13 @@ namespace BTL_API.Controllers
             {
                 var pageIndex = int.Parse(formData["pageIndex"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
-                string ten_hang = null;
-                if (formData.Keys.Contains("ten_hang") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_hang"])))
+                string ten_sanpham = null;
+                if (formData.Keys.Contains("ten_sanpham") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_sanpham"])))
                 {
-                    ten_hang = Convert.ToString(formData["ten_hang"]);
+                    ten_sanpham = Convert.ToString(formData["ten_sanpham"]);
                 }
                 long total = 0;
-                var data = _sanphamBusiness.Search(pageIndex, pageSize, out total, ten_hang);
+                var data = _sanphamBusiness.Search(pageIndex, pageSize, out total, ten_sanpham);
                 return Ok(
                     new
                     {

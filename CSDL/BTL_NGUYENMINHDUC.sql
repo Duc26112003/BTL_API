@@ -14,7 +14,6 @@ CREATE TABLE tbl_ChiTietHoaDon (
     CONSTRAINT FK_MaSanPham_ChiTietHoaDon FOREIGN KEY (MaSanPham) REFERENCES tbl_SanPham(MaSanPham)
 );
 
-drop table tbl_ChiTietHoaDon
 
 -- Bảng Hóa Đơn
 CREATE TABLE tbl_HoaDon (
@@ -36,15 +35,13 @@ GO
 -- Bảng Sản Phẩm
 CREATE TABLE tbl_SanPham (
     MaSanPham int IDENTITY(1,1)  CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
-    TenHang NVARCHAR(50) null,
+    TenSanPham NVARCHAR(50) null,
     MaLoaiHang int not null,
     SoLuong INT not null,
-    MoTa VARCHAR(100) not null
+    MoTa VARCHAR(100) not null,
+	TrangThai bit null,
 );
 GO
-ALTER TABLE tbl_SanPham
-ADD TrangThai bit null;
-
 
 -- tạo bảng loại hàng 
 CREATE TABLE tbl_LoaiHang (
@@ -52,6 +49,9 @@ CREATE TABLE tbl_LoaiHang (
     TenLoaiHang VARCHAR(50) not null, 
 );
 GO
+
+
+
 -- Tạo bảng LoaiTaiKhoan để lưu danh sách loại tài khoản
 CREATE TABLE LoaiTaiKhoan (
     LoaiTaiKhoanID int PRIMARY KEY,
@@ -109,28 +109,28 @@ INSERT INTO LoaiTaiKhoan (LoaiTaiKhoanID, TenLoaiTaiKhoan)
 VALUES (1, N'Admin'),
        (2, N'Người dùng');
 
-	SET IDENTITY_INSERT tbl_SanPham  ON;
 -- Thêm dữ liệu vào bảng sản phẩm 
-INSERT INTO tbl_SanPham (MaSanPham, TenHang, MaLoaiHang, SoLuong, MoTa, TrangThai)
+	SET IDENTITY_INSERT tbl_SanPham  ON;
+INSERT INTO tbl_SanPham (MaSanPham, TenSanPham, MaLoaiHang, SoLuong, MoTa, TrangThai)
 VALUES
     (1, N'Máy tính ', '1', 100, 'Máy tính dành cho dân văn phòng ',1),
     (3, N'Máy tính ', '2', 50, 'Máy tính dành cho game thủ ',0),
     (5, N'Điện Thoại ', '3', 75, 'Điện thoại Iphone 15',0),
     (6, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1);
 	SET IDENTITY_INSERT tbl_SanPham  OFF;
-	
-	SET IDENTITY_INSERT tbl_ChiTietHoaDon  ON;
-INSERT INTO tbl_ChiTietHoaDon (MaChiTietHoaDon , MaHoaDon, MaSanPham, SoLuong, TongGia)
-VALUES (1, 1, 6, 4, 49500000 )
-	SET IDENTITY_INSERT tbl_ChiTietHoaDon  OFF;
 
-	SET IDENTITY_INSERT tbl_HoaDon  ON;
 -- Thêm một bản ghi vào bảng tbl_HoaDon
+		SET IDENTITY_INSERT tbl_HoaDon  ON;
 INSERT INTO tbl_HoaDon (MaHoaDon, TongGia, NgayTao, NgayDuyet, TenKhachHang, GioiTinh, DiaChi, SoDienThoai, TrangThai)
 VALUES
     (1, 1000, '2023-10-12', '2023-10-15', 'Manh Cuong', 0, 'Sai Gon', '1234567890', 1);
 	SET IDENTITY_INSERT tbl_HoaDon  OFF;
 
+-- Thêm một bản ghi vào bảng tbl_ChiTietHoaDon
+	SET IDENTITY_INSERT tbl_ChiTietHoaDon  ON;
+INSERT INTO tbl_ChiTietHoaDon (MaChiTietHoaDon , MaHoaDon, MaSanPham, SoLuong, TongGia)
+VALUES (1, 1, 6, 4, 49500000 )
+	SET IDENTITY_INSERT tbl_ChiTietHoaDon  OFF;
 -- Thêm nhân viên 
 INSERT INTO tbl_NhanVien (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai, Email)VALUES 
 ('NV001', 'Nguyen Van A', 'Nam', '123 Nguyen Du, Hanoi', '0123456789', 'nv.a@example.com'),
@@ -345,25 +345,25 @@ END
 GO
 
 ALTER PROC Proc_getname
-@TenHang nvarchar(50)
+@TenSanPham nvarchar(50)
 as 
 begin 
-	SELECT * FROM tbl_SanPham WHERE TenHang = @TenHang;
+	SELECT * FROM tbl_SanPham WHERE TenSanPham = @TenSanPham;
 END
 GO
 select * from tbl_sanpham
 
-EXEC Proc_getname @TenHang = N'Máy tính';
+EXEC Proc_getname @TenSanPham = N'Máy tính';
 
 alter PROC Proc_themsanpham
-@TenHang Nvarchar(50),
+@TenSanPham Nvarchar(50),
 @MaLoaiHang int,
 @SoLuong int,
 @MoTa varchar(100)
 AS
 BEGIN
-    INSERT INTO tbl_SanPham (TenHang, MaLoaiHang, SoLuong, MoTa)
-    VALUES (@TenHang, @MaLoaiHang, @SoLuong, @MoTa)
+    INSERT INTO tbl_SanPham (TenSanPham, MaLoaiHang, SoLuong, MoTa)
+    VALUES (@TenSanPham, @MaLoaiHang, @SoLuong, @MoTa)
 END
 
 exec Proc_themsanpham 4, N'May tinh bang', 5, 10, 'La may tinh danh cho dan ki thuat';
@@ -375,13 +375,13 @@ select * from tbl_KhachHang
 
 ALTER PROC Proc_Suasp
 @MaSanPham int,
-@TenHang Nvarchar(50),
+@TenSanPham Nvarchar(50),
 @MaLoaiHang char(10),
 @SoLuong int,
 @MoTa varchar(100)
 AS
 BEGIN
-    UPDATE tbl_SanPham SET TenHang = @TenHang, MaLoaiHang = @MaLoaiHang, SoLuong = @SoLuong, MoTa = @MoTa
+    UPDATE tbl_SanPham SET TenSanPham = @TenSanPham, MaLoaiHang = @MaLoaiHang, SoLuong = @SoLuong, MoTa = @MoTa
     WHERE MaSanPham = @MaSanPham
 END
 -----gọi thủ tục sửa 
@@ -393,7 +393,7 @@ select * from tbl_SanPham
 ALTER PROCEDURE Proc_SanPham (
 	@page_index INT, 
 	@page_size INT,
-	@ten_hang Nvarchar(50)
+	@ten_sanpham Nvarchar(50)
 )
 AS
 BEGIN
@@ -402,15 +402,15 @@ BEGIN
     BEGIN
         SET NOCOUNT ON;
         SELECT
-            (ROW_NUMBER() OVER (ORDER BY TenHang ASC)) AS RowNumber,
+            (ROW_NUMBER() OVER (ORDER BY TenSanPham ASC)) AS RowNumber,
             sp.MaSanPham,
-            sp.TenHang,
+            sp.TenSanPham,
             sp.MaLoaiHang,
             sp.SoLuong,
             sp.MoTa
         INTO #Results1
         FROM tbl_SanPham AS sp
-        WHERE (@ten_hang = '' OR sp.TenHang LIKE '%' + @ten_hang + '%');
+        WHERE (@ten_sanpham = '' OR sp.TenSanPham LIKE '%' + @ten_sanpham + '%');
 
         SELECT @RecordCount = COUNT(*)
         FROM #Results1;
@@ -421,7 +421,7 @@ BEGIN
         WHERE ROWNUMBER BETWEEN (@page_index - 1) * @page_size + 1
         AND ((@page_index - 1) * @page_size + 1) + @page_size - 1
         OR @page_index = -1
-        ORDER BY #Results1.TenHang ASC;
+        ORDER BY #Results1.TenSanPham ASC;
 
         DROP TABLE #Results1;
     END;
@@ -429,15 +429,15 @@ BEGIN
     BEGIN
         SET NOCOUNT ON;
         SELECT
-            (ROW_NUMBER() OVER (ORDER BY TenHang ASC)) AS RowNumber,
+            (ROW_NUMBER() OVER (ORDER BY TenSanPham ASC)) AS RowNumber,
             sp.MaSanPham,
-            sp.TenHang,
+            sp.TenSanPham,
             sp.MaLoaiHang,
             sp.SoLuong,
             sp.MoTa
         INTO #Results2
         FROM tbl_SanPham AS sp
-        WHERE (@ten_hang = '' OR sp.TenHang LIKE '%' + @ten_hang + '%');
+        WHERE (@ten_sanpham = '' OR sp.TenSanPham LIKE '%' + @ten_sanpham + '%');
 
         SELECT @RecordCount = COUNT(*)
         FROM #Results2;
@@ -452,7 +452,7 @@ END;
 
 	select * from tbl_SanPham
 
-	exec Proc_SanPham 1,2,N'Máy tính '
+	exec Proc_SanPham 1,3,N'Máy tính '
 
 CREATE PROC Proc_xoasp
 @MaSanPham nvarchar(10)
@@ -481,20 +481,6 @@ AS
 		h.MaHoaDon = @MaHoaDon;
     END;
 GO
-
-
-CREATE PROCEDURE Proc_GetAllKhachHang
-AS
-BEGIN
-    SELECT * FROM tbl_KhachHang;
-END;
-
-CREATE PROCEDURE Proc_GetAllSanPham
-AS
-BEGIN
-    SELECT * FROM tbl_SanPham;
-END;
-
 
 ALTER PROC Proc_sp_hoadon_create
 (@TenKhachHang   NVARCHAR(50), 
@@ -603,6 +589,106 @@ AS
 		END;
         SELECT '';
     END;
+
+
+create PROC Proc_sp_thong_ke_khach (
+			@page_index  INT, 
+            @page_size   INT,
+			@ten_khach Nvarchar(50),
+			@fr_NgayTao datetime, 
+			@to_NgayTao datetime
+)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia,
+							  h.NgayTao,
+							  h.TenKhachHang,
+							  h.Diachi
+                        INTO #Results1
+                        FROM tbl_HoaDon  h
+						inner join tbl_ChiTietHoaDon c on c.MaHoaDon = h.MaHoaDon
+						inner join tbl_SanPham s on s.MaSanPham = c.MaSanPham
+					    WHERE  (@ten_khach = '' Or h.TenKhachHang like N'%'+@ten_khach+'%') and						
+						((@fr_NgayTao IS NULL
+                        AND @to_NgayTao IS NULL)
+                        OR (@fr_NgayTao IS NOT NULL
+                            AND @to_NgayTao IS NULL
+                            AND h.NgayTao >= @fr_NgayTao)
+                        OR (@fr_NgayTao IS NULL
+                            AND @to_NgayTao IS NOT NULL
+                            AND h.NgayTao <= @to_NgayTao)
+                        OR (h.NgayTao BETWEEN @fr_NgayTao AND @to_NgayTao))              
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Results1; 
+            END;
+            ELSE
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia,
+							  h.NgayTao,
+							  h.TenKhachHang,
+							  h.Diachi
+                        INTO #Results2
+                        FROM HoaDons  h
+						inner join tbl_ChiTietHoaDon c on c.MaHoaDon = h.MaHoaDon
+						inner join tbl_SanPham s on s.MaSanPham = c.MaSanPham
+					    WHERE  (@ten_khach = '' Or h.TenKhachHang like N'%'+@ten_khach+'%') and						
+						((@fr_NgayTao IS NULL
+                        AND @to_NgayTao IS NULL)
+                        OR (@fr_NgayTao IS NOT NULL
+                            AND @to_NgayTao IS NULL
+                            AND h.NgayTao >= @fr_NgayTao)
+                        OR (@fr_NgayTao IS NULL
+AND @to_NgayTao IS NOT NULL
+                            AND h.NgayTao <= @to_NgayTao)
+                        OR (h.NgayTao BETWEEN @fr_NgayTao AND @to_NgayTao))              
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2                        
+                        DROP TABLE #Results2; 
+        END;
+    END;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+CREATE PROCEDURE Proc_GetAllKhachHang
+AS
+BEGIN
+    SELECT * FROM tbl_KhachHang;
+END;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE Proc_GetAllSanPham
+AS
+BEGIN
+    SELECT * FROM tbl_SanPham;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 -- Xóa bảng hóa đơn 

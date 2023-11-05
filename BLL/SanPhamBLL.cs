@@ -43,9 +43,9 @@ namespace BLL
             return _res.Delete( MaSanPham);
         }
         
-        public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_hang)
+        public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_sanpham)
         {
-            return _res.Search(pageIndex, pageSize, out total, ten_hang);
+            return _res.Search(pageIndex, pageSize, out total, ten_sanpham);
         }
 
         

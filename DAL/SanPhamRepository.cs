@@ -34,7 +34,7 @@ namespace DAL
             try
             {
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_getname",
-                     "@TenHang", TenHang);
+                     "@TenSanPham", TenHang);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 return dt.ConvertTo<SanPhamDTO>().ToList<SanPhamDTO>();
@@ -50,7 +50,7 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_themsanpham",
-                "@TenHang", model.TenHang,
+                "@TenSanPham", model.TenSanPham,
                 "@MaLoaiHang", model.MaLoaiHang,
                 "@SoLuong", model.SoLuong,
                 "@MoTa", model.MoTa);
@@ -73,7 +73,7 @@ namespace DAL
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_Suasp",
                 "@MaSanPham", model.MaSanPham,
-                "@TenHang", model.TenHang,
+                "@TenSanPham", model.TenSanPham,
                 "@MaLoaiHang", model.MaLoaiHang,
                 "@SoLuong", model.SoLuong,
                 "@MoTa", model.MoTa);
@@ -89,7 +89,7 @@ namespace DAL
             }
         }
 
-        public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_hang)
+        public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_sanpham)
         {
             string msgError = "";
             total = 0;
@@ -98,7 +98,7 @@ namespace DAL
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_SanPham",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
-                    "@ten_hang", ten_hang);
+                    "@ten_sanpham", ten_sanpham);
 
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
