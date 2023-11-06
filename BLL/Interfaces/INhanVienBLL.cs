@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BLL
 {
     public partial interface INhanVienBLL
@@ -16,6 +17,6 @@ namespace BLL
         bool Delete(string MaNhanVien);
 
         List<NhanVienDTO> GetData();
-        public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, string dia_chi);
+        public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_nhanvien, string dia_chi);
     }
 }

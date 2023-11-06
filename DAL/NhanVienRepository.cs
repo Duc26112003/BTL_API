@@ -23,8 +23,8 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_getkh",
-                         "@MaKhachHang", id);
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_getnv",
+                         "@MaNhanVien", id);
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
                     return dt.ConvertTo<NhanVienDTO>().FirstOrDefault();
@@ -35,12 +35,12 @@ namespace DAL
                 }
             }
 
-            public List<NhanVienDTO> GetAllKhachHang()
+            public List<NhanVienDTO> GetAllNhanVien()
             {
                 string msgError = "";
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllKhachHang");
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllNhanVien");
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
                     return (List<NhanVienDTO>)dt.ConvertTo<NhanVienDTO>();
@@ -56,12 +56,13 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_themkh",
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_themnv",
                     "@MaNhanVien", model.MaNhanVien,
                     "@TenNhanVien", model.TenNhanVien,
                     "@GioiTinh", model.GioiTinh,
                     "@DiaChi", model.DiaChi,
-                    "@SoDienThoai", model.SoDienThoai);
+                    "@SoDienThoai", model.SoDienThoai,
+                    "@Email", model.Email);
                     if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                     {
                         throw new Exception(Convert.ToString(result) + msgError);
@@ -78,12 +79,13 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_suakh",
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_suanv",
                     "@MaNhanVien", model.MaNhanVien,
                     "@TenNhanVien", model.TenNhanVien,
                     "@GioiTinh", model.GioiTinh,
                     "@DiaChi", model.DiaChi,
-                    "@SoDienThoai", model.SoDienThoai);
+                    "@SoDienThoai", model.SoDienThoai,
+                    "@Email", model.Email);
                     if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                     {
                         throw new Exception(Convert.ToString(result) + msgError);
@@ -96,16 +98,16 @@ namespace DAL
                 }
             }
 
-            public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, string dia_chi)
+            public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_nhanvien, string dia_chi)
             {
                 string msgError = "";
                 total = 0;
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_KhachHang",
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_NhanVien",
                         "@page_index ", pageIndex,
                         "@page_size ", pageSize,
-                        "@ten_khach", ten_khach,
+                        "@ten_nhanvien", ten_nhanvien,
                         "@dia_chi", dia_chi);
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
@@ -117,14 +119,14 @@ namespace DAL
                     throw ex;
                 }
             }
-            public bool Delete(string MaKhachHang)
+            public bool Delete(string MaNhanVien)
             {
                 string msgError = "";
                 bool kq; // Khởi tạo mặc định là false
                 try
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedure(out msgError, "Proc_xoakh",
-                         "@MaKhachHang", MaKhachHang);
+                    var result = _dbHelper.ExecuteScalarSProcedure(out msgError, "Proc_xoanv",
+                         "@MaNhanVien", MaNhanVien);
                     // Kiểm tra kết quả trả về từ hàm ExecuteScalarSProcedureWithTransaction
                     if (Convert.ToInt32(result) > 0)
                     {
@@ -148,7 +150,7 @@ namespace DAL
                 string msgError = "";
                 try
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllKhachHang");
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllNhanVien");
                     if (!string.IsNullOrEmpty(msgError))
                         throw new Exception(msgError);
                     return (List<NhanVienDTO>)dt.ConvertTo<NhanVienDTO>();

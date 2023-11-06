@@ -36,9 +36,9 @@ namespace BLL
         {
             return _res.Update(model);
         }
-        public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, string dia_chi)
+        public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_nhanvien, string dia_chi)
         {
-            return _res.Search(pageIndex, pageSize, out total, ten_khach, dia_chi);
+            return _res.Search(pageIndex, pageSize, out total, ten_nhanvien, dia_chi);
         }
     }
 }

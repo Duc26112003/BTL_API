@@ -260,19 +260,9 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE Proc_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
-AS
-    BEGIN
-      SELECT  *
-      FROM tbl_TaiKhoan
-      where TenTaiKhoan= @taikhoan and MatKhau = @matkhau;
-    END;
-
-	exec Proc_login 'admin','admin';
-	exec Proc_login 'user','user'
 
 
-
+/*Phan trang tim kiem kach hang*/
 ALTER PROCEDURE Proc_KhachHang (
 	@page_index  INT, 
 	@page_size   INT,
@@ -333,6 +323,168 @@ AS
 
 	exec Proc_KhachHang 1,3,'Nguyen','Hanoi'
 
+/-------------------------------------------------------nhan vien -----------------------------------------------------------/
+/*Nhan vien */
+
+/*Thủ tục thêm khách hàng */
+CREATE PROC Proc_themnv
+@MaNhanVien char(10),
+@TenNhanVien Nvarchar(50),
+@GioiTinh nvarchar(10),
+@DiaChi Nvarchar(10),
+@SoDienThoai varchar(15),
+@Email char(30)
+AS
+BEGIN
+    INSERT INTO tbl_NhanVien
+    VALUES(  @MaNhanVien,@TenNhanVien,@GioiTinh,@DiaChi,@SoDienThoai,@Email)
+END
+GO
+-----gọi thủ tục
+exec Proc_themnv'NV012',N'NGUYEN HOANG MINH DUC','Nam','Ha noi','0987654321','duc611@gmail.com';
+SELECT * FROM tbl_NhanVien
+
+/*Sửa nhan vien  */
+ALTER PROC Proc_suanv
+@MaNhanVien char(10),
+@TenNhanVien Nvarchar(50),
+@GioiTinh nvarchar(10),
+@DiaChi Nvarchar(10),
+@SoDienThoai varchar(15),
+@Email char(30)
+AS
+BEGIN
+    UPDATE tbl_NhanVien SET TenNhanVien = @TenNhanVien, GioiTinh = @GioiTinh,DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, Email = @Email
+    WHERE MaNhanVien = @MaNhanVien
+END
+GO
+-----gọi thủ tục sửa 
+exec Proc_suanv 'NV012','Nguyen Hoang Minh Duc','Nam','Hung Yen','0123456789','duc123@gmail.com';
+SELECT * FROM tbl_NhanVien
+
+/*Xóa nhan vien  */
+CREATE PROC Proc_xoanv
+@MaNhanVien char(10)
+AS
+BEGIN
+    DELETE FROM tbl_NhanVien WHERE MaNhanVien =@MaNhanVien
+END
+GO
+----gọi thủ tục xoá mã khách “KH012”
+exec Proc_xoanv 'NV012'
+
+
+ALTER PROC SearchNhanVien
+    @PageIndex INT,
+    @PageSize INT,
+    @TenNhanVien NVARCHAR(50),
+    @DiaChi NVARCHAR(100)
+AS
+BEGIN
+    -- Tạo bộ phận trang
+    DECLARE @StartRow INT, @EndRow INT
+    SET @StartRow = (@PageIndex - 1) * @PageSize + 1
+    SET @EndRow = @StartRow + @PageSize - 1
+
+    -- Tạo bảng tạm để lưu trữ kết quả
+    CREATE TABLE #TempResult (
+        MaNhanVien CHAR(10),
+        TenNhanVien NVARCHAR(50),
+        GioiTinh NVARCHAR(10),
+        DiaChi NVARCHAR(100),
+        SoDienThoai NVARCHAR(10),
+		Email CHAR(30)
+    )
+    -- Tìm kiếm khách hàng theo tiêu chí
+    INSERT INTO #TempResult (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai,Email)
+    SELECT MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai,Email
+    FROM tbl_NhanVien
+    WHERE (TenNhanVien LIKE '%' + @TenNhanVien + '%' OR @TenNhanVien IS NULL)
+        AND (DiaChi LIKE '%' + @DiaChi + '%' OR @DiaChi IS NULL)
+
+    -- Lấy tổng số bản ghi
+    DECLARE @Total INT
+    SET @Total = (SELECT COUNT(*) FROM #TempResult)
+
+    -- Trả về kết quả phân trang
+    SELECT *
+    FROM (
+        SELECT ROW_NUMBER() OVER (ORDER BY MaNhanVien) AS RowNumber, *
+        FROM #TempResult
+    ) AS PagedResult
+    WHERE RowNumber BETWEEN @StartRow AND @EndRow
+
+    -- Xóa bảng tạm
+    DROP TABLE #TempResult
+END
+EXEC SearchNhanVien 1,3,'Nguyen Van A','Hanoi'
+
+/*Phan trang tim kiem kach hang*/
+CREATE PROCEDURE Proc_NhanVien (
+	@page_index  INT, 
+	@page_size   INT,
+	@ten_nhanvien Nvarchar(50),
+	@dia_chi varchar(100)
+)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenNhanVien ASC)) AS RowNumber, 
+                              k.MaNhanVien,
+							  k.TenNhanVien,
+							  k.DiaChi,
+							  k.GioiTinh,
+							  k.SoDienThoai,
+							  k.Email
+                        INTO #Results1
+                        FROM tbl_NhanVien AS k
+					    WHERE  (@ten_nhanvien = '' Or k.TenNhanVien like N'%'+@ten_nhanvien+'%') and						
+						(@dia_chi = '' Or k.DiaChi like N'%'+@dia_chi+'%');                   
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1
+						ORDER BY #Results1.MaNhanVien asc
+                        DROP TABLE #Results1; 
+            END;
+            ELSE
+            BEGIN
+						SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY TenNhanVien ASC)) AS RowNumber, 
+                              k.MaNhanVien,
+							  k.TenNhanVien,
+							  k.DiaChi,
+							  k.GioiTinh,
+							  k.SoDienThoai,
+							  k.Email
+                        INTO #Results2
+                        FROM tbl_NhanVien AS k
+					    WHERE  (@ten_nhanvien = '' Or k.TenNhanVien like N'%'+@ten_nhanvien+'%') and						
+						(@dia_chi = '' Or k.DiaChi like N'%'+@dia_chi+'%');                   
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2;                        
+                        DROP TABLE #Results1; 
+        END;
+    END;
+	
+create proc Proc_getnv 
+@MaNhanVien char(10)
+as
+BEGIN
+    select* FROM tbl_NhanVien WHERE MaNhanVien = @MaNhanVien
+END
+GO
 
 //----------------------------------------------------------------------- Product ----------------------------------------------------------------------
 
@@ -464,7 +616,7 @@ GO
 
 exec Proc_xoasp 'SP006'
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------hoa don --------------------------------------------------------------------------------------------------------
 
 CREATE PROC Proc_sp_hoadon_get_by_id(@MaHoaDon int)
 AS
@@ -589,7 +741,7 @@ AS
 		END;
         SELECT '';
     END;
-
+/---------------------------------------------------------- thong ke khach ---------------------------------------------------------
 
 create PROC Proc_sp_thong_ke_khach (
 			@page_index  INT, 
@@ -679,6 +831,12 @@ BEGIN
     SELECT * FROM tbl_KhachHang;
 END;
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE Proc_GetAllNhanVien
+AS
+BEGIN
+    SELECT * FROM tbl_NhanVien;
+END;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE PROCEDURE Proc_GetAllSanPham
 AS
@@ -688,7 +846,17 @@ END;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+/*tai khoan */
+ALTER PROCEDURE Proc_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
+AS
+    BEGIN
+      SELECT  *
+      FROM tbl_TaiKhoan
+      where TenTaiKhoan= @taikhoan and MatKhau = @matkhau;
+    END;
 
+	exec Proc_login 'admin','admin';
+	exec Proc_login 'user','user'
 
 
 -- Xóa bảng hóa đơn 

@@ -1,5 +1,4 @@
 ﻿using BLL;
-using BLL.Interfaces;
 using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +21,11 @@ namespace BTL_API.Controllers
             var NhanVien = _nhanvienBLL.GetDatabyID(id);
             if (NhanVien == null)
             {
-                return NotFound("Khách hàng không tồn tại"); // Trả về 404 Not Found nếu không tìm thấy khách hàng
+                return NotFound("Nhân viên không tồn tại"); // Trả về 404 Not Found nếu không tìm thấy khách hàng
             }
             return Ok(NhanVien);
         }
-        [Route("create-khach")]
+        [Route("create-nhan-vien")]
         [HttpPost]
         public IActionResult CreateItem([FromBody] NhanVienDTO model)
         {
@@ -34,7 +33,7 @@ namespace BTL_API.Controllers
             return Ok(model);
         }
 
-        [Route("update-khach")]
+        [Route("update-nhan-vien")]
         [HttpPut]
         public IActionResult UpdateItem([FromBody] NhanVienDTO model)
         {
@@ -50,10 +49,10 @@ namespace BTL_API.Controllers
             {
                 var pageIndex = int.Parse(formData["pageIndex"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
-                string ten_nv = null;
-                if (formData.Keys.Contains("ten_nv") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_nv"])))
+                string ten_nhanvien = null;
+                if (formData.Keys.Contains("ten_nhanvien") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_nhanvien"])))
                 {
-                    ten_nv = Convert.ToString(formData["ten_nv"]);
+                    ten_nhanvien = Convert.ToString(formData["ten_nhanvien"]);
                 }
                 string dia_chi = null;
                 if (formData.Keys.Contains("dia_chi") && !string.IsNullOrEmpty(Convert.ToString(formData["dia_chi"])))
@@ -61,7 +60,7 @@ namespace BTL_API.Controllers
                     dia_chi = Convert.ToString(formData["dia_chi"]);
                 }
                 long total = 0;
-                var data = _nhanvienBLL.Search(pageIndex, pageSize, out total, ten_nv, dia_chi);
+                var data = _nhanvienBLL.Search(pageIndex, pageSize, out total, ten_nhanvien, dia_chi);
                 return Ok(
                     new
                     {
@@ -77,14 +76,14 @@ namespace BTL_API.Controllers
                 throw new Exception(ex.Message);
             }
         }
-        [Route("delete-khach")]
+        [Route("delete-nhan-vien")]
         [HttpDelete]
         public IActionResult DeleteItem(string MaKhachHang)
         {
             _nhanvienBLL.Delete(MaKhachHang);
             return Ok(MaKhachHang);
         }
-        [Route("get-all-khach")]
+        [Route("get-all-nhanvien")]
         [HttpGet]
         public IActionResult GetAllKhachHang()
         {
