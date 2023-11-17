@@ -8,8 +8,7 @@ using DTO;
 
 namespace DAL
 {
-    public class NhanVienRespository
-    {
+  
         public class NhanVienRepository : INhanVienRepository
         {
             private IDatabaseHelper _dbHelper;
@@ -165,4 +164,4 @@ namespace DAL
 
         }
     }
-}
+

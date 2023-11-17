@@ -1,6 +1,34 @@
 ﻿CREATE DATABASE BTL_NGUYENMINHDUC
 GO 
 USE BTL_NGUYENMINHDUC
+
+GO
+
+CREATE TABLE tbl_Slide(
+	[MaAnh] [int] IDENTITY(1,1) NOT NULL,
+	[TieuDe] [nvarchar](250) NULL,
+	[TieuDe1] [nvarchar](250) NULL,
+	[TieuDe2] [nvarchar](250) NULL,
+	[MoTa1] [nvarchar](250) NULL,
+	[MoTa2] [nvarchar](250) NULL,
+	[MoTa3] [nvarchar](250) NULL,
+	[MoTa4] [nvarchar](250) NULL,
+	[HinhAnh] [nvarchar](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MaAnh] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+INSERT INTO tbl_Slide (TieuDe, TieuDe1, TieuDe2, MoTa1, MoTa2, MoTa3, MoTa4, HinhAnh)
+VALUES
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'img/LAPTOP/Acer_Gaming_Nitro_5_AN515-44-R9JM.jpg'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'img/LAPTOP/Acer_Swift_3_SF313-53-518Y.png'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'img/LAPTOP/Acer_Swift_SF314-57G-53T1.jpg'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'img/LAPTOP/Asus_D409DA-EK152T.jpeg'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'img/LAPTOP/Asus_Gaming_ROG_Strix_G713QM-K4113T.jpg')
+
 GO
 -- Bảng Chi Tiết Hóa Đơn
 CREATE TABLE tbl_ChiTietHoaDon (
@@ -30,18 +58,16 @@ CREATE TABLE tbl_HoaDon (
 );
 GO
 
-
-
 -- Bảng Sản Phẩm
 CREATE TABLE tbl_SanPham (
-    MaSanPham int IDENTITY(1,1)  CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) not null,
-    TenSanPham NVARCHAR(50) null,
-    MaLoaiHang int not null,
-    SoLuong INT not null,
-    MoTa VARCHAR(100) not null,
-	TrangThai bit null,
+    MaSanPham INT IDENTITY(1,1) CONSTRAINT PK_MSP PRIMARY KEY (MaSanPham) NOT NULL,
+    TenSanPham NVARCHAR(50) NULL,
+    MaLoaiHang INT NOT NULL,
+    SoLuong INT NOT NULL,
+    MoTa VARCHAR(100) NOT NULL,
+    TrangThai BIT NULL,
+    HinhAnh NVARCHAR(350) NULL -- Cột mới để lưu trữ dữ liệu hình ảnh
 );
-GO
 
 -- tạo bảng loại hàng 
 CREATE TABLE tbl_LoaiHang (
@@ -111,12 +137,14 @@ VALUES (1, N'Admin'),
 
 -- Thêm dữ liệu vào bảng sản phẩm 
 	SET IDENTITY_INSERT tbl_SanPham  ON;
-INSERT INTO tbl_SanPham (MaSanPham, TenSanPham, MaLoaiHang, SoLuong, MoTa, TrangThai)
+INSERT INTO tbl_SanPham (MaSanPham, TenSanPham, MaLoaiHang, SoLuong, MoTa, TrangThai,HinhAnh)
 VALUES
-    (1, N'Máy tính ', '1', 100, 'Máy tính dành cho dân văn phòng ',1),
-    (3, N'Máy tính ', '2', 50, 'Máy tính dành cho game thủ ',0),
-    (5, N'Điện Thoại ', '3', 75, 'Điện thoại Iphone 15',0),
-    (6, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1);
+    (1, N'Máy tính ', '1', 100, 'Máy tính dành cho dân văn phòng ',1,'img/LAPTOP/Acer_Gaming_Nitro_5_AN515-44-R9JM.jpg'),
+    (2, N'Máy tính ', '5', 100, 'Máy tính dành cho dân văn phòng ',1,'img/LAPTOP/Asus_D409DA-EK152T.jpeg'),
+    (3, N'Máy tính ', '2', 50, 'Máy tính dành cho game thủ ',0,'img/LAPTOP/Acer_Swift_3_SF313-53-518Y.png'),
+    (5, N'Điện Thoại ', '3', 75, 'Điện thoại Iphone 15',0,'img/LAPTOP/Acer_Swift_SF314-57G-53T1.jpg'),
+    (6, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1,'img/LAPTOP/Asus_D409DA-EK152T.jpeg'),
+    (4, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1,'img/LAPTOP/Asus_Gaming_ROG_Strix_G713QM-K4113T.jpg');
 	SET IDENTITY_INSERT tbl_SanPham  OFF;
 
 -- Thêm một bản ghi vào bảng tbl_HoaDon
@@ -131,6 +159,7 @@ VALUES
 INSERT INTO tbl_ChiTietHoaDon (MaChiTietHoaDon , MaHoaDon, MaSanPham, SoLuong, TongGia)
 VALUES (1, 1, 6, 4, 49500000 )
 	SET IDENTITY_INSERT tbl_ChiTietHoaDon  OFF;
+
 -- Thêm nhân viên 
 INSERT INTO tbl_NhanVien (MaNhanVien, TenNhanVien, GioiTinh, DiaChi, SoDienThoai, Email)VALUES 
 ('NV001', 'Nguyen Van A', 'Nam', '123 Nguyen Du, Hanoi', '0123456789', 'nv.a@example.com'),
@@ -158,6 +187,10 @@ VALUES
     ('KH009', 'Hoang Van I', 'Nam', '159 Tran Phu, Quy Nhon', '0598765432'),
     ('KH010', 'Le Thi J', N'Nữ', '852 Hoang Dieu, Vung Tau', '0945678901');
 GO
+
+select * from tbl_KhachHang
+
+
 
 
 /*Thủ tục thêm khách hàng */
@@ -485,7 +518,7 @@ BEGIN
     select* FROM tbl_NhanVien WHERE MaNhanVien = @MaNhanVien
 END
 GO
-
+select * from tbl_NhanVien
 //----------------------------------------------------------------------- Product ----------------------------------------------------------------------
 
 alter proc Proc_getsanpham
@@ -617,7 +650,7 @@ GO
 exec Proc_xoasp 'SP006'
 
 -----------------------------------------------------------------------------------------hoa don --------------------------------------------------------------------------------------------------------
-
+-- get by id 
 CREATE PROC Proc_sp_hoadon_get_by_id(@MaHoaDon int)
 AS
     BEGIN
@@ -633,7 +666,7 @@ AS
 		h.MaHoaDon = @MaHoaDon;
     END;
 GO
-
+-- create hóa đơn 
 ALTER PROC Proc_sp_hoadon_create
 (@TenKhachHang   NVARCHAR(50), 
  @GioiTinh		 bit, 
@@ -679,7 +712,7 @@ AS
 	select * from tbl_HoaDon
 	select * from tbl_ChiTietHoaDon
 
-
+-- update hóa đơn
 CREATE  PROC Proc_sp_hoa_don_update
 (@MaHoaDon        int, 
  @TenKhachHang    NVARCHAR(50), 
@@ -884,3 +917,10 @@ BEGIN
     -- Lấy ra các sản phẩm có số lượng lớn hơn 100
     SELECT Top(@top)* FROM tbl_SanPham WHERE SoLuong >= 100; 
 END
+---------------------------------------------------------------------------------------slide -----------------------------------------------
+
+CREATE PROC GetSlides
+AS
+BEGIN
+    SELECT * FROM tbl_Slide;
+END;

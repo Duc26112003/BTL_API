@@ -1,6 +1,6 @@
 using DAL;
 using BLL;
-using static DAL.KhachRespository;
+using static DAL.KhachRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using static DTO.AuthenticateDTO;
@@ -26,6 +26,10 @@ builder.Services.AddTransient<ISanPhamRepository, SanPhamRepository>();
 builder.Services.AddTransient<ISanPhamBLL, SanPhamBLL>();
 builder.Services.AddTransient<IHoaDonRepository, HoaDonRepository>();
 builder.Services.AddTransient<IHoaDonBLL, HoaDonBLL>();
+builder.Services.AddTransient<INhanVienRepository, NhanVienRepository>();
+builder.Services.AddTransient<INhanVienBLL, NhanVienBLL>();
+builder.Services.AddTransient<ISlideRepository, SlideRepository>();
+builder.Services.AddTransient<ISlideBLL, SlideBLL>();
 
 // configure strongly typed settings objects
 IConfiguration configuration = builder.Configuration;

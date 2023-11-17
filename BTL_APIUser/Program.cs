@@ -1,6 +1,6 @@
 using BLL;
 using DAL;
-using static DAL.KhachRespository;
+using static DAL.KhachRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +22,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

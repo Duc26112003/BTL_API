@@ -14,20 +14,7 @@ namespace BTL_API.Controllers
         {
             _sanphamBusiness = sanphamBusiness;
         }
-        [Route("get-by-id/{id}")]
-        [HttpGet]
-        public SanPhamDTO GetDatabyID(string id)
-        {
-            return _sanphamBusiness.GetDatabyID(id);
-        }
-        [Route("get-by-TenSanPham/{TenSanPham}")]
-        [HttpGet]
-        public List<SanPhamDTO> GetTenHang(string TenSanPham) 
-        {
-            return _sanphamBusiness.GetTenHang(TenSanPham);
-        }
-
-
+        
         [Route("create-sanpham")]
         [HttpPost]
         public SanPhamDTO CreateItem([FromBody] SanPhamDTO model)
@@ -81,13 +68,7 @@ namespace BTL_API.Controllers
             return Ok(MaSanPham);
         }
 
-        [Route("get-all-sanpham")]
-        [HttpGet]
-        public IActionResult GetAllSanPham()
-        {
-            var allSanPham = _sanphamBusiness.GetData();
-            return Ok(allSanPham);
-        }
+        
 
         
 
