@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using static DTO.AuthenticateDTO;
 using System.Text;
-using DAL.Interfaces;
-using BLL.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +19,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
 builder.Services.AddTransient<IKhachRepository, KhachRepository>();
 builder.Services.AddTransient<IKhachHangBLL, KhachHangBLL>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IUserBLL, UserBLL>();
+
 builder.Services.AddTransient<ISanPhamRepository, SanPhamRepository>();
 builder.Services.AddTransient<ISanPhamBLL, SanPhamBLL>();
 builder.Services.AddTransient<IHoaDonRepository, HoaDonRepository>();

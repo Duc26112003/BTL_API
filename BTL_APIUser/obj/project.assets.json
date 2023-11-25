@@ -3326,6 +3326,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "BLL >= 1.0.0",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.20",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -3372,6 +3373,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "target": "Package",
+            "version": "[6.0.20, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"

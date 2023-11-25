@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DTO;
 
-namespace BLL.Interfaces
+namespace BLL
 {
     public partial interface IUserBLL
     {

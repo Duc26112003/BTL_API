@@ -16,6 +16,9 @@ namespace DTO
 
         public string HinhAnh { get; set; }
 
+        public string Gia { get; set; }   
+
+
     }
 
    

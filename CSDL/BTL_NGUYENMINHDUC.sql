@@ -69,6 +69,9 @@ CREATE TABLE tbl_SanPham (
     HinhAnh NVARCHAR(350) NULL -- Cột mới để lưu trữ dữ liệu hình ảnh
 );
 
+ALTER TABLE tbl_SanPham
+ADD Gia DECIMAL(18, 2) NULL;
+
 -- tạo bảng loại hàng 
 CREATE TABLE tbl_LoaiHang (
     MaLoaiHang char(10) PRIMARY KEY not null,
@@ -136,16 +139,24 @@ VALUES (1, N'Admin'),
        (2, N'Người dùng');
 
 -- Thêm dữ liệu vào bảng sản phẩm 
-	SET IDENTITY_INSERT tbl_SanPham  ON;
-INSERT INTO tbl_SanPham (MaSanPham, TenSanPham, MaLoaiHang, SoLuong, MoTa, TrangThai,HinhAnh)
+SET IDENTITY_INSERT tbl_SanPham ON;
+
+INSERT INTO tbl_SanPham (MaSanPham, TenSanPham, MaLoaiHang, SoLuong, MoTa, TrangThai, HinhAnh, Gia)
 VALUES
-    (1, N'Máy tính ', '1', 100, 'Máy tính dành cho dân văn phòng ',1,'img/LAPTOP/Acer_Gaming_Nitro_5_AN515-44-R9JM.jpg'),
-    (2, N'Máy tính ', '5', 100, 'Máy tính dành cho dân văn phòng ',1,'img/LAPTOP/Asus_D409DA-EK152T.jpeg'),
-    (3, N'Máy tính ', '2', 50, 'Máy tính dành cho game thủ ',0,'img/LAPTOP/Acer_Swift_3_SF313-53-518Y.png'),
-    (5, N'Điện Thoại ', '3', 75, 'Điện thoại Iphone 15',0,'img/LAPTOP/Acer_Swift_SF314-57G-53T1.jpg'),
-    (6, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1,'img/LAPTOP/Asus_D409DA-EK152T.jpeg'),
-    (4, N'Laptop', '4', 120, 'Laptop dành cho đồ họa',1,'img/LAPTOP/Asus_Gaming_ROG_Strix_G713QM-K4113T.jpg');
-	SET IDENTITY_INSERT tbl_SanPham  OFF;
+    (1, N'Máy tính', '1', 120, N'Máy tính dành cho dân văn phòng', 1, 'img/Maytinh/maytinh1.jpg', 100000000),
+    (2, N'Máy tính', '1', 50, N'Máy tính dành cho game thủ', 0, 'img/Maytinh/maytinh3.jpg', 20000000),
+    (3, N'Máy tính', '1', 100, N'Máy tính dành cho dân văn phòng', 1, 'img/Maytinh/maytinh2.jpg', 22000000),
+    (4, N'Máy tính', '1', 120, N'Máy tính dành cho dân văn phòng', 1, 'img/Maytinh/maytinh4.jpg', 30000000),
+    (5, N'Máy tính', '1', 50, N'Máy tính dành cho game thủ', 0, 'img/Maytinh/maytinh3.jpg', 34000000),
+    (6, N'Máy tính', '1', 100, N'Máy tính dành cho dân văn phòng', 1, 'img/Maytinh/maytinh1.jpg', 23400000),
+    (7, N'Laptop', '2', 75, N'Điện thoại Iphone 15', 0, 'img/LAPTOP/Acer_Swift_SF314-57G-53T1.jpg', 25000000),
+    (8, N'Laptop', '2', 120, N'Laptop dành cho đồ họa', 1, 'img/LAPTOP/Asus_D409DA-EK152T.jpeg', 26900000),
+    (9, N'Laptop', '2', 120, N'Laptop dành cho đồ họa', 1, 'img/LAPTOP/Asus_Gaming_ROG_Strix_G713QM-K4113T.jpg', 23000000),
+    (10, N'Laptop', '2', 75, N'Điện thoại Iphone 15', 0, 'img/LAPTOP/Acer_Swift_SF314-57G-53T1.jpg', 23000000),
+    (11, N'Laptop', '2', 120, N'Laptop dành cho đồ họa', 1, 'img/LAPTOP/Asus_D409DA-EK152T.jpeg', 23500000),
+    (12, N'Laptop', '2', 120, N'Laptop dành cho đồ họa', 1, 'img/LAPTOP/Asus_Gaming_ROG_Strix_G713QM-K4113T.jpg', 24500000);
+
+SET IDENTITY_INSERT tbl_SanPham OFF;
 
 -- Thêm một bản ghi vào bảng tbl_HoaDon
 		SET IDENTITY_INSERT tbl_HoaDon  ON;
@@ -189,9 +200,6 @@ VALUES
 GO
 
 select * from tbl_KhachHang
-
-
-
 
 /*Thủ tục thêm khách hàng */
 CREATE PROC Proc_themkh
@@ -649,6 +657,26 @@ GO
 
 exec Proc_xoasp 'SP006'
 
+
+-- Tạo stored procedure
+CREATE PROCEDURE GetMayTinhProc
+AS
+BEGIN
+    -- Lấy ra tất cả sản phẩm có tên là "máy tính"
+    SELECT * 
+    FROM tbl_SanPham
+    WHERE TenSanPham = N'Máy tính';
+END;
+
+CREATE PROCEDURE GetLaptopProc
+AS
+BEGIN
+    -- Lấy ra tất cả sản phẩm có tên là "máy tính"
+    SELECT * 
+    FROM tbl_SanPham
+    WHERE TenSanPham = N'Laptop';
+END;
+exec GetMayTinhProc
 -----------------------------------------------------------------------------------------hoa don --------------------------------------------------------------------------------------------------------
 -- get by id 
 CREATE PROC Proc_sp_hoadon_get_by_id(@MaHoaDon int)
@@ -915,7 +943,7 @@ ALTER PROC Proc_getsanphambanchay
 AS
 BEGIN
     -- Lấy ra các sản phẩm có số lượng lớn hơn 100
-    SELECT Top(@top)* FROM tbl_SanPham WHERE SoLuong >= 100; 
+    SELECT Top(@top)* FROM tbl_SanPham WHERE SoLuong >= 120; 
 END
 ---------------------------------------------------------------------------------------slide -----------------------------------------------
 

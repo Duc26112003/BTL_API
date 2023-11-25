@@ -19,6 +19,9 @@ namespace BLL
 
         List<SanPhamDTO> GetData();
 
+        List<SanPhamDTO> GetMayTinhProc();
+        List<SanPhamDTO> GetLaptopProc();
+
         List<SanPhamDTO> GetSanPhamBanChay(int top);
         public List<SanPhamDTO> Search(int pageIndex, int pageSize, out long total, string ten_sanpham);
         

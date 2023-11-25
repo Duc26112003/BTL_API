@@ -9,6 +9,7 @@
       "BTL_APIUser/1.0.0": {
         "dependencies": {
           "BLL": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.20",
           "Swashbuckle.AspNetCore": "6.2.3"
         },
         "runtime": {

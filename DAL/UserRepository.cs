@@ -1,4 +1,4 @@
-﻿using DAL.Interfaces;
+﻿using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;

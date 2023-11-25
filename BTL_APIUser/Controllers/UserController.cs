@@ -1,10 +1,10 @@
-﻿using DAL.Interfaces;
-using DTO;
+﻿using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BLL;
-using BLL.Interfaces;
+using DAL;
+
 
 namespace BTL_API.Controllers
 {

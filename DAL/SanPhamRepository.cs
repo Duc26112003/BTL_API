@@ -151,6 +151,37 @@ namespace DAL
                 throw ex;
             }
         }
+        public List<SanPhamDTO> GetMayTinhProc()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "GetMayTinhProc");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return (List<SanPhamDTO>)dt.ConvertTo<SanPhamDTO>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SanPhamDTO> GetLaptopProc()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "GetLaptopProc");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return (List<SanPhamDTO>)dt.ConvertTo<SanPhamDTO>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SanPhamDTO> GetSanPhamBanChay(int top)
         {
             string msgError = "";
@@ -166,5 +197,7 @@ namespace DAL
                 throw ex;
             }
         }
+
+
     }
 }

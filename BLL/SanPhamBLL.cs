@@ -26,6 +26,14 @@ namespace BLL
         {
             return _res.GetData();
         }
+        public List<SanPhamDTO> GetLaptopProc()
+        {
+            return _res.GetLaptopProc();
+        }
+        public List<SanPhamDTO> GetMayTinhProc()
+        {
+            return _res.GetMayTinhProc();
+        }
         public List<SanPhamDTO> GetSanPhamBanChay(int top)
         {
             return _res.GetSanPhamBanChay(top);

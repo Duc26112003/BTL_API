@@ -29,18 +29,38 @@ namespace BTL_APIUser.Controllers
             var allSanPham = _sanphamBusiness.GetData();
             return Ok(allSanPham);
         }
+
+        [Route("get-all-maytinh")]
+        [HttpGet]
+        public IActionResult GetMayTinhProc()
+        {
+            var allSanPham = _sanphamBusiness.GetMayTinhProc();
+            return Ok(allSanPham);
+        }
+
+        [Route("get-all-laptop")]
+        [HttpGet]
+        public IActionResult GetLaptopProc()
+        {
+            var allSanPham = _sanphamBusiness.GetLaptopProc();
+            return Ok(allSanPham);
+        }
+
         [Route("get-by-TenSanPham/{TenSanPham}")]
         [HttpGet]
         public List<SanPhamDTO> GetTenHang(string TenSanPham)
         {
             return _sanphamBusiness.GetTenHang(TenSanPham);
         }
+
         [Route("get-by-id/{id}")]
         [HttpGet]
         public SanPhamDTO GetDatabyID(string id)
         {
             return _sanphamBusiness.GetDatabyID(id);
         }
+
+
         
 
 
