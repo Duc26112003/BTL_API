@@ -11,7 +11,7 @@ namespace DTO
         public int MaSanPham { get; set; }
         public string TenSanPham { get; set; }
         public int SoLuong { get; set; }
-        public Decimal TongGia { get; set; }
+        public int TongGia { get; set; }
         public DateTime NgayTao { get; set; }
         public string TenKhachHang { get; set; }
         public string Diachi { get; set; }

@@ -19,9 +19,9 @@ namespace BLL
         {
             return _res.GetDatabyID(id);
         }
-        public List<NhanVienDTO> GetData()
+        public List<NhanVienDTO> GetAllNhanVien()
         {
-            return _res.GetData();
+            return _res.GetAllNhanVien();
         }
         public bool Create(NhanVienDTO model)
         {

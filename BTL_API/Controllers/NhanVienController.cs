@@ -78,16 +78,16 @@ namespace BTL_API.Controllers
         }
         [Route("delete-nhan-vien")]
         [HttpDelete]
-        public IActionResult DeleteItem(string MaKhachHang)
+        public IActionResult DeleteItem(string MaNhanVien)
         {
-            _nhanvienBLL.Delete(MaKhachHang);
-            return Ok(MaKhachHang);
+            _nhanvienBLL.Delete(MaNhanVien);
+            return Ok(MaNhanVien);
         }
         [Route("get-all-nhanvien")]
         [HttpGet]
-        public IActionResult GetAllKhachHang()
+        public IActionResult GetAllNhanVien()
         {
-            var allKhachHang = _nhanvienBLL.GetData();
+            var allKhachHang = _nhanvienBLL.GetAllNhanVien();
             return Ok(allKhachHang);
         }
 

@@ -34,23 +34,23 @@ namespace DAL
                 }
             }
 
-            public List<NhanVienDTO> GetAllNhanVien()
+        public List<NhanVienDTO> GetAllNhanVien()
+        {
+            string msgError = "";
+            try
             {
-                string msgError = "";
-                try
-                {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllNhanVien");
-                    if (!string.IsNullOrEmpty(msgError))
-                        throw new Exception(msgError);
-                    return (List<NhanVienDTO>)dt.ConvertTo<NhanVienDTO>();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllNhanVien");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return (List<NhanVienDTO>)dt.ConvertTo<NhanVienDTO>();
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-            public bool Create(NhanVienDTO model)
+        public bool Create(NhanVienDTO model)
             {
                 string msgError = "";
                 try
@@ -144,24 +144,8 @@ namespace DAL
 
             }
 
-            public List<NhanVienDTO> GetData()
-            {
-                string msgError = "";
-                try
-                {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_GetAllNhanVien");
-                    if (!string.IsNullOrEmpty(msgError))
-                        throw new Exception(msgError);
-                    return (List<NhanVienDTO>)dt.ConvertTo<NhanVienDTO>();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-
-
+        
 
         }
-    }
+}
 

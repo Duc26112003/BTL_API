@@ -50,7 +50,7 @@ namespace BTL_API.Controllers
         {
             try
             {
-                var page = int.Parse(formData["page"].ToString());
+                var pageindex = int.Parse(formData["pageindex"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string ten_khach = "";
                 if (formData.Keys.Contains("ten_khach") && !string.IsNullOrEmpty(Convert.ToString(formData["ten_khach"]))) { ten_khach = Convert.ToString(formData["ten_khach"]); }
@@ -67,13 +67,13 @@ namespace BTL_API.Controllers
                     to_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999);
                 }
                 long total = 0;
-                var data = _hoadonBusiness.Search(page, pageSize, out total, ten_khach, fr_NgayTao, to_NgayTao);
+                var data = _hoadonBusiness.Search(pageindex, pageSize, out total, ten_khach, fr_NgayTao, to_NgayTao);
                 return Ok(
                     new
                     {
                         TotalItems = total,
                         Data = data,
-                        Page = page,
+                        Pageindex = pageindex,
                         PageSize = pageSize
                     }
                     );

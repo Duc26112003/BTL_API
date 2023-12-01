@@ -14,7 +14,8 @@ namespace DAL
         bool Update(NhanVienDTO model);
         bool Delete(string MaNhanVien);
 
-        List<NhanVienDTO> GetData();
+        
+        List<NhanVienDTO> GetAllNhanVien();
         public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_khach, string dia_chi);
 
     }

@@ -32,11 +32,15 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_sp_hoadon_create",
+                "TongGia",model.TongGia,
+                "NgayTao",model.NgayTao,
+                "NgayDuyet",model.NgayDuyet,
                 "@TenKhachHang", model.TenKhachHang,
                 "@GioiTinh", model.GioiTinh
 ,               "@DiaChi", model.Diachi,
+                "@SoDienThoai",model.SoDienThoai,
                 "@TrangThai", model.TrangThai,
-                "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null); ;
+                "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null); 
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception(Convert.ToString(result) + msgError);
@@ -54,10 +58,14 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "Proc_sp_hoa_don_update",
-                
-                "@MaHoaDon", model.MaHoaDon,
+                "MaHoaDon",model.MaHoaDon,
+                "TongGia", model.TongGia,
+                "NgayTao", model.NgayTao,
+                "NgayDuyet", model.NgayDuyet,
                 "@TenKhachHang", model.TenKhachHang,
-                "@Diachi", model.Diachi,
+                "@GioiTinh", model.GioiTinh,
+                "@DiaChi", model.Diachi,
+                "@SoDienThoai", model.SoDienThoai,
                 "@TrangThai", model.TrangThai,
                 "@list_json_chitiethoadon", model.list_json_chitiethoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadon) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
@@ -78,7 +86,7 @@ namespace DAL
             total = 0;
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_thong_ke_khach",
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "Proc_sp_thong_ke_khach",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
                     "@ten_khach", ten_khach,

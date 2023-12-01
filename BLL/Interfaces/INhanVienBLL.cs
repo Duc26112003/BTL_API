@@ -16,7 +16,7 @@ namespace BLL
 
         bool Delete(string MaNhanVien);
 
-        List<NhanVienDTO> GetData();
+        List<NhanVienDTO> GetAllNhanVien();
         public List<NhanVienDTO> Search(int pageIndex, int pageSize, out long total, string ten_nhanvien, string dia_chi);
     }
 }

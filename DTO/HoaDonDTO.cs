@@ -9,9 +9,13 @@ namespace DTO
     public class HoaDonDTO
     {
         public int MaHoaDon { get; set; }
+        public int TongGia { get; set; }
+        public DateTime NgayTao { get; set; }
+        public DateTime NgayDuyet { get; set; }
         public string TenKhachHang { get; set; }
         public bool GioiTinh { get; set; }
         public string Diachi { get; set; }
+        public string SoDienThoai { get; set; }
         public bool TrangThai { get; set; }
         public List<ChiTietHoaDonDTO> list_json_chitiethoadon { get; set; }
     }

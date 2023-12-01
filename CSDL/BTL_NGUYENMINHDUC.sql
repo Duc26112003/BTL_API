@@ -4,6 +4,26 @@ USE BTL_NGUYENMINHDUC
 
 GO
 
+CREATE TABLE Images
+(
+    ImageID INT PRIMARY KEY,
+    FileName NVARCHAR(255), -- Tên file ảnh
+    FilePath NVARCHAR(255)  -- Đường dẫn lưu trữ ảnh
+);
+
+CREATE PROCEDURE AddImage
+    @FileName NVARCHAR(255),
+    @FilePath NVARCHAR(255)
+AS
+BEGIN
+    INSERT INTO Images (FileName, FilePath)
+    VALUES (@FileName, @FilePath);
+END;
+
+-- Ví dụ thêm một bản ghi mới
+INSERT INTO Images (ImageID,FileName, FilePath)
+VALUES (1,'Acer_Gaming_Nitro_5_AN515-44-R9JM.jpg', 'D:\BT_Web\Demo\BaiTap 1\img\LAPTOP');
+
 CREATE TABLE tbl_Slide(
 	[MaAnh] [int] IDENTITY(1,1) NOT NULL,
 	[TieuDe] [nvarchar](250) NULL,
@@ -199,7 +219,7 @@ VALUES
     ('KH010', 'Le Thi J', N'Nữ', '852 Hoang Dieu, Vung Tau', '0945678901');
 GO
 
-select * from tbl_KhachHang
+select * from tbl_ChiTietHoaDon
 
 /*Thủ tục thêm khách hàng */
 CREATE PROC Proc_themkh
@@ -647,7 +667,7 @@ END;
 
 	exec Proc_SanPham 1,3,N'Máy tính '
 
-CREATE PROC Proc_xoasp
+ALTER PROC Proc_xoasp
 @MaSanPham nvarchar(10)
 AS
 BEGIN
@@ -655,11 +675,15 @@ BEGIN
 END
 GO
 
-exec Proc_xoasp 'SP006'
+exec Proc_xoasp '1'
 
 
--- Tạo stored procedure
-CREATE PROCEDURE GetMayTinhProc
+/****** Object:  StoredProcedure [dbo].[GetMayTinhProc]    Script Date: 01-Dec-23 8:16:24 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[GetMayTinhProc]
 AS
 BEGIN
     -- Lấy ra tất cả sản phẩm có tên là "máy tính"
@@ -668,7 +692,12 @@ BEGIN
     WHERE TenSanPham = N'Máy tính';
 END;
 
-CREATE PROCEDURE GetLaptopProc
+/****** Object:  StoredProcedure [dbo].[GetLaptopProc]    Script Date: 01-Dec-23 8:15:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[GetLaptopProc]
 AS
 BEGIN
     -- Lấy ra tất cả sản phẩm có tên là "máy tính"
@@ -679,7 +708,12 @@ END;
 exec GetMayTinhProc
 -----------------------------------------------------------------------------------------hoa don --------------------------------------------------------------------------------------------------------
 -- get by id 
-CREATE PROC Proc_sp_hoadon_get_by_id(@MaHoaDon int)
+/****** Object:  StoredProcedure [dbo].[Proc_sp_hoadon_get_by_id]    Script Date: 01-Dec-23 8:18:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[Proc_sp_hoadon_get_by_id](@MaHoaDon int)
 AS
     BEGIN
         SELECT h.*, 
@@ -693,28 +727,44 @@ AS
 		
 		h.MaHoaDon = @MaHoaDon;
     END;
-GO
 -- create hóa đơn 
-ALTER PROC Proc_sp_hoadon_create
-(@TenKhachHang   NVARCHAR(50), 
- @GioiTinh		 bit, 
- @DiaChi		 NVARCHAR(250), 
- @TrangThai		 bit,  
+/****** Object:  StoredProcedure [dbo].[Proc_sp_hoadon_create]    Script Date: 01-Dec-23 8:19:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[Proc_sp_hoadon_create]
+(@TongGia int,
+ @NgayTao datetime,
+ @NgayDuyet datetime,
+ @TenKhachHang NVARCHAR(50), 
+ @GioiTinh bit,
+ @Diachi       NVARCHAR(250),
+ @SoDienThoai NVARCHAR(10),
+ @TrangThai bit,  
  @list_json_chitiethoadon NVARCHAR(MAX)
 )
 AS
     BEGIN
 		DECLARE @MaHoaDon INT;
         INSERT INTO tbl_HoaDon
-                (TenKhachHang, 
-				 GioiTinh,
-                 Diachi,  
-                 TrangThai              
+                (TongGia,
+				NgayTao,
+				NgayDuyet,
+				TenKhachHang, 
+				GioiTinh,
+                 Diachi, 
+				 SoDienThoai,
+                 TrangThai               
                 )
                 VALUES
-                (@TenKhachHang, 
-				 @GioiTinh,
+                (@TongGia,
+				@NgayTao,
+				@NgayDuyet,
+				@TenKhachHang, 
+				@GioiTinh,
                  @DiaChi, 
+				 @SoDienThoai,
                  @TrangThai
                 );
 
@@ -741,19 +791,35 @@ AS
 	select * from tbl_ChiTietHoaDon
 
 -- update hóa đơn
-CREATE  PROC Proc_sp_hoa_don_update
-(@MaHoaDon        int, 
- @TenKhachHang    NVARCHAR(50), 
- @Diachi          NVARCHAR(250), 
- @TrangThai       bit,  
+/****** Object:  StoredProcedure [dbo].[Proc_sp_hoa_don_update]    Script Date: 01-Dec-23 8:19:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER  PROC [dbo].[Proc_sp_hoa_don_update]
+(@MaHoaDon   int, 
+ @TongGia int,
+ @NgayTao datetime,
+ @NgayDuyet datetime,
+ @TenKhachHang NVARCHAR(50), 
+ @GioiTinh bit,
+ @Diachi       NVARCHAR(250), 
+ @SoDienThoai NVARCHAR(10),
+ @TrangThai bit,  
  @list_json_chitiethoadon NVARCHAR(MAX)
 )
 AS
     BEGIN
 		UPDATE tbl_HoaDon
 		SET
+			
+			TongGia = @TongGia,
+			NgayTao = @NgayTao,
+			NgayDuyet = @NgayDuyet,
 			TenKhachHang  = @TenKhachHang,
+			GioiTinh = @GioiTinh,
 			Diachi = @Diachi,
+			SoDienThoai =@SoDienThoai,
 			TrangThai = @TrangThai
 		WHERE MaHoaDon = @MaHoaDon;
 		
@@ -762,7 +828,7 @@ AS
 			 -- Insert data to temp table 
 		   SELECT
 			  JSON_VALUE(p.value, '$.maChiTietHoaDon') as maChiTietHoaDon,
-			  JSON_VALUE(p.value, '$.maHoaDon') as maHoaDon,
+			  JSON_VALUE(p.value, '$.MaHoaDon') as MaHoaDon,
 			  JSON_VALUE(p.value, '$.maSanPham') as maSanPham,
 			  JSON_VALUE(p.value, '$.soLuong') as soLuong,
 			  JSON_VALUE(p.value, '$.tongGia') as tongGia,
@@ -802,9 +868,12 @@ AS
 		END;
         SELECT '';
     END;
-/---------------------------------------------------------- thong ke khach ---------------------------------------------------------
 
-create PROC Proc_sp_thong_ke_khach (
+--/---------------------------------------------------------- thong ke khach ---------------------------------------------------------
+
+
+
+ALTER PROC Proc_sp_thong_ke_khach (
 			@page_index  INT, 
             @page_size   INT,
 			@ten_khach Nvarchar(50),
@@ -862,7 +931,7 @@ AS
 							  h.TenKhachHang,
 							  h.Diachi
                         INTO #Results2
-                        FROM HoaDons  h
+                        FROM tbl_HoaDon  h
 						inner join tbl_ChiTietHoaDon c on c.MaHoaDon = h.MaHoaDon
 						inner join tbl_SanPham s on s.MaSanPham = c.MaSanPham
 					    WHERE  (@ten_khach = '' Or h.TenKhachHang like N'%'+@ten_khach+'%') and						
@@ -883,32 +952,50 @@ AND @to_NgayTao IS NOT NULL
                         DROP TABLE #Results2; 
         END;
     END;
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	exec Proc_sp_thong_ke_khach 1,10,'','',''
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-CREATE PROCEDURE Proc_GetAllKhachHang
+/****** Object:  StoredProcedure [dbo].[Proc_GetAllKhachHang]    Script Date: 01-Dec-23 8:16:45 AM ******/
+SET ANSI_NULLS ON
+GO
+
+
+
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[Proc_GetAllKhachHang]
 AS
 BEGIN
     SELECT * FROM tbl_KhachHang;
 END;
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE PROCEDURE Proc_GetAllNhanVien
+ALTER PROCEDURE Proc_GetAllNhanVien
 AS
 BEGIN
     SELECT * FROM tbl_NhanVien;
 END;
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/****** Object:  StoredProcedure [dbo].[Proc_GetAllSanPham]    Script Date: 01-Dec-23 8:17:10 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
-CREATE PROCEDURE Proc_GetAllSanPham
+ALTER PROCEDURE [dbo].[Proc_GetAllSanPham]
 AS
 BEGIN
     SELECT * FROM tbl_SanPham;
 END;
-
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-/*tai khoan */
-ALTER PROCEDURE Proc_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
+/****** Object:  StoredProcedure [dbo].[Proc_login]    Script Date: 01-Dec-23 8:17:31 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[Proc_login](@taikhoan nvarchar(50), @matkhau nvarchar(50))
 AS
     BEGIN
       SELECT  *
